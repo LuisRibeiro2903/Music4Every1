@@ -1,0 +1,91 @@
+﻿@page "/search/"
+@inject IAuctionsService AuctionsService
+@inject NavigationManager NavigationManager
+
+<style>
+    .custom-input {
+        width: 300px; /* Set the desired width */
+        height: 37px; /* Set the desired height */
+    }
+</style>
+
+<input type="text" class="custom-input" @bind-value="@filter.Term" />
+<button type="submit" class="btn btn-primary" @onclick="SearchAuctions">Pesquisar</button>
+<button type="button" class="btn btn-danger" @onclick="ClearResults">Limpar Pesquisa</button>
+
+@if (!AuctionsService.Auctions.Any())
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Leilões</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Data de início</th>
+                <th>Preço inicial</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var auction in AuctionsService.Auctions)
+            {
+                <tr>
+                    <td>@auction.Descricao</td>
+                    <td>@auction.DataInicio</td>
+                    <td>@auction.PrecoInicial</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Term { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int? PrecoMax { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int? PrecoMin { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Categoria { get; set; }
+
+
+    private Filter filter = new Filter();
+
+
+    private void SearchAuctions()
+    {
+        NavigationManager.NavigateTo($"/search?term={filter.Term}");
+    }
+
+    private void ClearResults()
+    {
+        filter.Term = string.Empty;
+        NavigationManager.NavigateTo("/search");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuctionsService.GetAuctions();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Uri myUri = new Uri(NavigationManager.Uri);
+        string term = HttpUtility.ParseQueryString(myUri.Query).Get("term");
+        Filter aux = new Filter { Term = term };
+        await AuctionsService.FilteredSearch(aux);
+    }
+
+}
+

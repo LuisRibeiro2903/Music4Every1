@@ -1,7 +1,33 @@
 ﻿@page "/auctions"
+@inject IAuctionsService AuctionService
 
 <h3>Leilões</h3>
 
+<table class="table">
+<thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Data de início</th>
+            <th>Preço inicial</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var auction in AuctionService.Auctions)
+        {
+            <tr>
+                <td>@auction.Descricao</td>
+                <td>@auction.DataInicio</td>
+                <td>@auction.PrecoInicial</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 @code {
 
+    protected override async Task OnInitializedAsync()
+    {
+        await AuctionService.GetAuctions();
+    }
 }
