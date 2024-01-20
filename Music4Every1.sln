@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Music4Every1.Server", "Music4Every1\Server\Music4Every1.Server.csproj", "{90D36E3C-82FF-4EAE-9477-F3781EC4D56F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music4Every1.Server", "Music4Every1\Server\Music4Every1.Server.csproj", "{90D36E3C-82FF-4EAE-9477-F3781EC4D56F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Music4Every1.Client", "Music4Every1\Client\Music4Every1.Client.csproj", "{25BD21E9-6AE6-42BA-8A95-FCC91AF1D7AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music4Every1.Client", "Music4Every1\Client\Music4Every1.Client.csproj", "{25BD21E9-6AE6-42BA-8A95-FCC91AF1D7AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Music4Every1.Shared", "Music4Every1\Shared\Music4Every1.Shared.csproj", "{4F8BA705-49E7-4B1C-ADDC-6588EED1740D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music4Every1.Shared", "Music4Every1\Shared\Music4Every1.Shared.csproj", "{4F8BA705-49E7-4B1C-ADDC-6588EED1740D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
