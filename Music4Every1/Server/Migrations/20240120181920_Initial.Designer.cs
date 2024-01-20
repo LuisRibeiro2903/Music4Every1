@@ -12,7 +12,7 @@ using Music4Every1.Server.Data;
 namespace Music4Every1.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240120013002_Initial")]
+    [Migration("20240120181920_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

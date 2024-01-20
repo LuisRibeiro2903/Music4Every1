@@ -23,10 +23,12 @@
                 new Leilao { Id = 4, VendedorId = 4, Descricao = "Violino", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 },
                 new Leilao { Id = 5, VendedorId = 5, Descricao = "Saxofone", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 }
             );
+
         }
 
         public DbSet<Utilizador> Utilizadores { get; set; }
 
         public DbSet<Leilao> Leiloes { get; set; }
+
     }
 }

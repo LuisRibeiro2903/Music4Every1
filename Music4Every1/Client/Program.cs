@@ -1,3 +1,6 @@
+global using Music4Every1.Shared;
+global using Music4Every1.Client.Services.AuctionsService;
+global using System.Web;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Music4Every1.Client;
@@ -7,5 +10,6 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddScoped<IAuctionsService, AuctionsService>();
 
 await builder.Build().RunAsync();
