@@ -34,6 +34,14 @@ namespace Music4Every1.Server.Controllers
             {
                 query = query.Where(x => x.Itens.Any(item => item.Categoria.Equals(search.Categoria)));
             }
+            if (search.PrecoMin != null)
+            {
+                query = query.Where(x => x.PrecoInicial >= search.PrecoMin);
+            }
+            if (search.PrecoMax != null)
+            {
+                query = query.Where(x => x.PrecoInicial <= search.PrecoMax);
+            }
             var results = await query
                 .Select(x => new Leilao
                 {

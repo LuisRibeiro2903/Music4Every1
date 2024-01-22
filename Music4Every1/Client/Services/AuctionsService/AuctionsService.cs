@@ -8,6 +8,7 @@ namespace Music4Every1.Client.Services.AuctionsService
         private readonly HttpClient _http;
 
         public List<Leilao> Auctions { get; set; } = new List<Leilao>();
+        public Boolean IsLoading { get; set; } = true;
 
         public AuctionsService(HttpClient http)
         {
@@ -21,6 +22,7 @@ namespace Music4Every1.Client.Services.AuctionsService
             {
                 Auctions = result;
             }
+            IsLoading = false;
         }
 
         public async Task FilteredSearch(Filter search)
