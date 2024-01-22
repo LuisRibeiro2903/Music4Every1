@@ -2,9 +2,8 @@
 {
     public interface ISingleAuctionService
     {
-        Leilao Leilao { get; set; }
+        Leilao? Auction { get; set; }
         Task GetAuction(int id);
         Task PlaceBid(Bid bid);
-        Task GetBids(int id);
     }
 }

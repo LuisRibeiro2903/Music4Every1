@@ -1,0 +1,21 @@
+﻿@page "/auctions/{id:int}"
+@inherits OwningComponentBase
+
+@inject Music4Every1.Client.Services.SingleAuctionService.ISingleAuctionService SingleAuctionService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Leilão em Detalhe</PageTitle>
+
+@if (SingleAuctionService.Auction == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <p>Descrição: @SingleAuctionService.Auction.Descricao</p>
+    <p>Start Date: @SingleAuctionService.Auction.DataInicio.ToString("yyyy-MM-dd HH:mm:ss")</p>
+    <p>Duration: @SingleAuctionService.Auction.Duracao</p>
+    <!-- Add more details as needed -->
+
+    <button>Go Back (nao implementado)</button>
+}

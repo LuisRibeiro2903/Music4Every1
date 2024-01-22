@@ -1,14 +1,16 @@
 ﻿@page "/auctions"
-@inject IAuctionsService AuctionService
 
 <h3>Leilões</h3>
 
 <table class="table">
-<thead>
+    <thead>
         <tr>
             <th>Descrição</th>
-            <th>Data de início</th>
-            <th>Preço inicial</th>
+            <th>Data de Inicio</th>
+            <th>Preço Atual</th>
+            <th>Preço de Compra Imediata</th>
+            <th>Tempo restante</th>
+            <th>+Detalhes</th>
             <th></th>
         </tr>
     </thead>
@@ -18,16 +20,31 @@
             <tr>
                 <td>@auction.Descricao</td>
                 <td>@auction.DataInicio</td>
-                <td>@auction.PrecoInicial</td>
+                <td>@auction.PrecoAtual</td>
+                <td>@auction.PrecoCompraImediata</td>
+                <td>@auction.TimeLeft().ToString()</td>
+                <td><button @onclick="() => NavigateToAuctionDetails(auction.Id)">Detalhes</button></td>
             </tr>
         }
     </tbody>
 </table>
 
-@code {
+@code 
+{
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    private IAuctionsService AuctionService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await AuctionService.GetAuctions();
+    }
+
+    private void NavigateToAuctionDetails(int auctionId)
+    {
+        // Use NavigationManager to navigate to the specified auction details page
+        NavigationManager.NavigateTo($"/auctions/{auctionId}");
     }
 }

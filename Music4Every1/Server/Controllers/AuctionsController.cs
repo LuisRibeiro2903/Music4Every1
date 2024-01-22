@@ -36,11 +36,11 @@ namespace Music4Every1.Server.Controllers
             }
             if (search.PrecoMin != null)
             {
-                query = query.Where(x => x.PrecoInicial >= search.PrecoMin);
+                query = query.Where(x => x.PrecoAtual >= search.PrecoMin);
             }
             if (search.PrecoMax != null)
             {
-                query = query.Where(x => x.PrecoInicial <= search.PrecoMax);
+                query = query.Where(x => x.PrecoAtual <= search.PrecoMax);
             }
             var results = await query
                 .Select(x => new Leilao
@@ -48,7 +48,7 @@ namespace Music4Every1.Server.Controllers
                     Id = x.Id,
                     Descricao = x.Descricao,
                     DataInicio = x.DataInicio,
-                    PrecoInicial = x.PrecoInicial,
+                    PrecoAtual = x.PrecoAtual,
                 }).ToListAsync();
             return Ok(results);
         }
