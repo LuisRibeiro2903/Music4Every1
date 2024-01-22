@@ -1,4 +1,5 @@
 ﻿@page "/search/"
+@implements IDisposable
 @inject IAuctionsService AuctionsService
 @inject NavigationManager NavigationManager
 
@@ -12,6 +13,29 @@
 <input type="text" class="custom-input" @bind-value="@filter.Term" />
 <button type="submit" class="btn btn-primary" @onclick="SearchAuctions">Pesquisar</button>
 <button type="button" class="btn btn-danger" @onclick="ClearResults">Limpar Pesquisa</button>
+<select class="custom-select" @bind="@filter.Categoria">
+    <option value="">Todas as categorias</option>
+    <option value="strings">Cordas</option>
+    <option value="percussion">Percussão</option>
+    <option value="electric">Elétricos</option>
+    <option value="wind">Sopros</option>
+</select>
+<div class="wrapper">
+    <header>
+        <h3>Intevalo de preços</h3>
+    </header>
+    <div class="price-input">
+        <div class="field">
+            <span>Min</span>
+            <input type="number" class="input-min" @bind-value="@filter.PrecoMin"/>
+        </div>
+        <div class="separator">-</div>
+        <div class="field">
+            <span>Max</span>
+            <input type="number" class="input-max" @bind-value="@filter.PrecoMax" />
+        </div>
+    </div>
+</div>
 
 @if (!AuctionsService.Auctions.Any())
 {
@@ -43,7 +67,6 @@ else
     </table>
 }
 
-
 @code {
 
     [Parameter]
@@ -59,13 +82,33 @@ else
     [SupplyParameterFromQuery]
     public string? Categoria { get; set; }
 
-
-    private Filter filter = new Filter();
-
+    private Filter filter = new Filter {PrecoMin = 70, PrecoMax = 1000};
 
     private void SearchAuctions()
     {
-        NavigationManager.NavigateTo($"/search?term={filter.Term}");
+        string search = "/search";
+        char seperator = '?';
+        if (!string.IsNullOrEmpty(filter.Term))
+        {
+            search += seperator + $"term={filter.Term}";
+            seperator = '&';
+        }
+        if (!string.IsNullOrEmpty(filter.Categoria))
+        {
+            search += seperator + $"category={filter.Categoria}";
+            seperator = '&';
+        }
+        if(filter.PrecoMin > 70)
+        {
+            search += seperator + $"min={filter.PrecoMin}";
+            seperator = '&';
+        }
+        if (filter.PrecoMax < 1000)
+        {
+            search += seperator + $"max={filter.PrecoMax}";
+            seperator = '&';
+        }
+        NavigationManager.NavigateTo(search);
     }
 
     private void ClearResults()
@@ -77,15 +120,25 @@ else
     protected override async Task OnInitializedAsync()
     {
         await AuctionsService.GetAuctions();
+        NavigationManager.LocationChanged += OnLocationChanged;
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected async void OnLocationChanged(object sender, LocationChangedEventArgs e)
     {
-        Uri myUri = new Uri(NavigationManager.Uri);
-        string term = HttpUtility.ParseQueryString(myUri.Query).Get("term");
-        Filter aux = new Filter { Term = term };
+        Filter aux = new Filter
+            {
+                Term = Term,
+                Categoria = Categoria,
+                PrecoMin = PrecoMin;
+                PrecoMax = PrecoMax,
+            };
+
         await AuctionsService.FilteredSearch(aux);
+        StateHasChanged();
     }
 
+    void IDisposable.Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
 }
-

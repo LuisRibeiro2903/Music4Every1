@@ -18,6 +18,7 @@ namespace Music4Every1.Shared
         public TimeSpan Duracao { get; set; }
         public double PrecoInicial { get; set; }
         public double? PrecoCompraImediata { get; set; }
+        public List<Item> Itens { get; set; } = new List<Item>();
 
     }
 }
