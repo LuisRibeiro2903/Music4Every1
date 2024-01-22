@@ -25,12 +25,31 @@ namespace Music4Every1.Server.Controllers
         [HttpPost("search")]
         public async Task<ActionResult<List<Leilao>>> FilteredSearch(Filter search)
         {
-            IQueryable<Leilao> query = _context.Leiloes;
+            IQueryable<Leilao> query = _context.Leiloes.Include(l => l.Itens);
             if (!string.IsNullOrEmpty(search.Term))
             {
                 query = query.Where(x => x.Descricao.Contains(search.Term));
             }
-            var results = await query.ToListAsync();
+            if (!string.IsNullOrEmpty(search.Categoria))
+            {
+                query = query.Where(x => x.Itens.Any(item => item.Categoria.Equals(search.Categoria)));
+            }
+            if (search.PrecoMin != null)
+            {
+                query = query.Where(x => x.PrecoInicial >= search.PrecoMin);
+            }
+            if (search.PrecoMax != null)
+            {
+                query = query.Where(x => x.PrecoInicial <= search.PrecoMax);
+            }
+            var results = await query
+                .Select(x => new Leilao
+                {
+                    Id = x.Id,
+                    Descricao = x.Descricao,
+                    DataInicio = x.DataInicio,
+                    PrecoInicial = x.PrecoInicial,
+                }).ToListAsync();
             return Ok(results);
         }
     }

@@ -7,6 +7,5 @@
         public string Password { get; set; } = string.Empty;
         public double Saldo { get; set; }
 
-    
     }
 }

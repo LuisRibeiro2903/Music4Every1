@@ -3,6 +3,7 @@
     public interface IAuctionsService
     {
         List<Leilao> Auctions { get; set; }
+        public Boolean IsLoading { get; set; }
 
         Task GetAuctions();
 
