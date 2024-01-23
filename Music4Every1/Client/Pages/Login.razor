@@ -1,0 +1,41 @@
+﻿@page "/login"
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorage
+
+
+<h3>Login</h3>
+
+<EditForm Model="user" OnSubmit="HandleLogin">
+    <label for="email">Name</label>
+    <InputText id="email" @bind-Value="user.Email" />
+    <label for="password">Password</label>
+    <InputText id="password" @bind-Value="user.Password" type="password"/>
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+@code {
+    UserLoginDTO user = new UserLoginDTO();
+
+    async Task HandleLogin()
+    {
+        var token = string.Empty;
+        try
+        {
+            token = await AuthService.Login(user);
+        } 
+        catch (UserNotFoundException e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        catch (WrongPasswordException e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        Console.WriteLine(token);
+        await LocalStorage.SetItemAsync("token", token);
+    }
+}

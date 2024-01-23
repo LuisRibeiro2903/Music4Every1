@@ -9,6 +9,14 @@
     <br>Venha encontrar o instrumento que fará seu talento ressoar nas salas do concerto da vida.
 </p>
 
+<AuthorizeView Roles="Iron Man">
+    <Authorized>
+        <span> Olá, vês isto, @context.User.Identity.Name?!</span>
+    </Authorized>
+    <NotAuthorized>
+        <span> Olá, vês isto?!</span>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
 

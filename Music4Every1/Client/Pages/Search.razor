@@ -105,7 +105,12 @@ else
             search += seperator + $"max={filter.PrecoMax}";
             seperator = '&';
         }
-        NavigationManager.NavigateTo(search);
+        var current_url = new Uri(NavigationManager.Uri);
+        string path = current_url.PathAndQuery;
+        if(!path.Equals(search))
+        {
+            NavigationManager.NavigateTo(search);
+        }
     }
 
     private void ClearResults()
@@ -113,7 +118,13 @@ else
         filter.Term = string.Empty;
         filter.PrecoMax = 1000;
         filter.PrecoMin = 70;
-        NavigationManager.NavigateTo("/search");
+        filter.Categoria = string.Empty;
+        var current_url = new Uri(NavigationManager.Uri);
+        string path = current_url.PathAndQuery;
+        if (!path.Equals("/search"))
+        {
+            NavigationManager.NavigateTo("/search");
+        }
     }
 
     protected override async Task OnInitializedAsync()
@@ -125,19 +136,19 @@ else
     protected async void OnLocationChanged(object sender, LocationChangedEventArgs e)
     {
         Filter aux = new Filter
-            {
+        {
                 Term = Term,
                 Categoria = Category,
                 PrecoMin = Min,
                 PrecoMax = Max,
         };
 
-    await AuctionsService.FilteredSearch(aux);
-    StateHasChanged();
+        await AuctionsService.FilteredSearch(aux);
+        StateHasChanged();
     }
 
     void IDisposable.Dispose()
     {
-    NavigationManager.LocationChanged -= OnLocationChanged;
+        NavigationManager.LocationChanged -= OnLocationChanged;
     }
 }
