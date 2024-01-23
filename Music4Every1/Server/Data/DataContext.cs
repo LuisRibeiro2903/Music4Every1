@@ -10,11 +10,11 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Utilizador>().HasData(
-                new Utilizador { Id = 1, Nome = "João", Password = "123", Saldo = 1000 },
-                new Utilizador { Id = 2, Nome = "Maria", Password = "123", Saldo = 1000 },
-                new Utilizador { Id = 3, Nome = "José", Password = "123", Saldo = 1000 },
-                new Utilizador { Id = 4, Nome = "Ana", Password = "123", Saldo = 1000 },
-                new Utilizador { Id = 5, Nome = "Carlos", Password = "123", Saldo = 1000 }
+                new Utilizador { Id = 1, Nome = "João",Email = "joao@gmail,com" ,PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"),  PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
+                new Utilizador { Id = 2, Nome = "Maria",Email = "maria@gmail.com", PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
+                new Utilizador { Id = 3, Nome = "José",Email = "jose@gmail.com" ,PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
+                new Utilizador { Id = 4, Nome = "Ana",Email = "ana@gmail.com", PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
+                new Utilizador { Id = 5, Nome = "Carlos", Email = "carlos@gmail.com", PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 }
             );
             modelBuilder.Entity<Leilao>().HasMany(l => l.Itens).WithOne(i => i.Leilao).HasForeignKey(i => i.LeilaoId);
 

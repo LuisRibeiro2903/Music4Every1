@@ -20,7 +20,9 @@ namespace Music4Every1.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Saldo = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
@@ -58,16 +60,37 @@ namespace Music4Every1.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Item",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Categoria = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LeilaoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Item", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Item_Leiloes_LeilaoId",
+                        column: x => x.LeilaoId,
+                        principalTable: "Leiloes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Utilizadores",
-                columns: new[] { "Id", "Nome", "Password", "Saldo" },
+                columns: new[] { "Id", "Email", "Nome", "PasswordHash", "PasswordSalt", "Saldo" },
                 values: new object[,]
                 {
-                    { 1, "João", "123", 1000.0 },
-                    { 2, "Maria", "123", 1000.0 },
-                    { 3, "José", "123", 1000.0 },
-                    { 4, "Ana", "123", 1000.0 },
-                    { 5, "Carlos", "123", 1000.0 }
+                    { 1, "joao@gmail,com", "João", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 },
+                    { 2, "maria@gmail.com", "Maria", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 },
+                    { 3, "jose@gmail.com", "José", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 },
+                    { 4, "ana@gmail.com", "Ana", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 },
+                    { 5, "carlos@gmail.com", "Carlos", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -81,6 +104,23 @@ namespace Music4Every1.Server.Migrations
                     { 4, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Violino", new TimeSpan(1, 0, 0, 0, 0), 200.0, 100.0, 4 },
                     { 5, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saxofone", new TimeSpan(1, 0, 0, 0, 0), 200.0, 100.0, 5 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Item",
+                columns: new[] { "Id", "Categoria", "LeilaoId", "Nome" },
+                values: new object[,]
+                {
+                    { 1, "Cordas", 1, "Guitarra Elétrica" },
+                    { 2, "Percussão", 2, "Bateria" },
+                    { 3, "Teclas", 3, "Piano" },
+                    { 4, "Cordas", 4, "Violino" },
+                    { 5, "Sopro", 5, "Saxofone" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_LeilaoId",
+                table: "Item",
+                column: "LeilaoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Leiloes_CompradorId",
@@ -96,6 +136,9 @@ namespace Music4Every1.Server.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Item");
+
             migrationBuilder.DropTable(
                 name: "Leiloes");
 

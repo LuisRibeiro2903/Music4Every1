@@ -46,6 +46,43 @@ namespace Music4Every1.Server.Migrations
                     b.HasIndex("LeilaoId");
 
                     b.ToTable("Item");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Categoria = "Cordas",
+                            LeilaoId = 1,
+                            Nome = "Guitarra Elétrica"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Categoria = "Percussão",
+                            LeilaoId = 2,
+                            Nome = "Bateria"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Categoria = "Teclas",
+                            LeilaoId = 3,
+                            Nome = "Piano"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Categoria = "Cordas",
+                            LeilaoId = 4,
+                            Nome = "Violino"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Categoria = "Sopro",
+                            LeilaoId = 5,
+                            Nome = "Saxofone"
+                        });
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Leilao", b =>
@@ -147,13 +184,21 @@ namespace Music4Every1.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<double>("Saldo")
                         .HasColumnType("float");
@@ -166,36 +211,46 @@ namespace Music4Every1.Server.Migrations
                         new
                         {
                             Id = 1,
+                            Email = "joao@gmail,com",
                             Nome = "João",
-                            Password = "123",
+                            PasswordHash = new byte[] { 49, 50, 51 },
+                            PasswordSalt = new byte[] { 49, 50, 51 },
                             Saldo = 1000.0
                         },
                         new
                         {
                             Id = 2,
+                            Email = "maria@gmail.com",
                             Nome = "Maria",
-                            Password = "123",
+                            PasswordHash = new byte[] { 49, 50, 51 },
+                            PasswordSalt = new byte[] { 49, 50, 51 },
                             Saldo = 1000.0
                         },
                         new
                         {
                             Id = 3,
+                            Email = "jose@gmail.com",
                             Nome = "José",
-                            Password = "123",
+                            PasswordHash = new byte[] { 49, 50, 51 },
+                            PasswordSalt = new byte[] { 49, 50, 51 },
                             Saldo = 1000.0
                         },
                         new
                         {
                             Id = 4,
+                            Email = "ana@gmail.com",
                             Nome = "Ana",
-                            Password = "123",
+                            PasswordHash = new byte[] { 49, 50, 51 },
+                            PasswordSalt = new byte[] { 49, 50, 51 },
                             Saldo = 1000.0
                         },
                         new
                         {
                             Id = 5,
+                            Email = "carlos@gmail.com",
                             Nome = "Carlos",
-                            Password = "123",
+                            PasswordHash = new byte[] { 49, 50, 51 },
+                            PasswordSalt = new byte[] { 49, 50, 51 },
                             Saldo = 1000.0
                         });
                 });
