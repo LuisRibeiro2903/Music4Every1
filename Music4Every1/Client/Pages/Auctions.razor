@@ -1,4 +1,6 @@
 ﻿@page "/auctions"
+@inject IAuctionsService AuctionService
+@inject NavigationManager NavigationManager
 
 <h3>Leilões</h3>
 
@@ -30,12 +32,6 @@
 
 @code 
 {
-    [Inject]
-    private NavigationManager NavigationManager { get; set; }
-
-    [Inject]
-    private IAuctionsService AuctionService { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         await AuctionService.GetAuctions();
