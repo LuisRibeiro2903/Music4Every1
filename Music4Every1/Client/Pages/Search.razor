@@ -129,7 +129,24 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await AuctionsService.GetAuctions();
+        var current_url = new Uri(NavigationManager.Uri);
+        string path = current_url.PathAndQuery;
+        if (!path.Equals("/search"))
+        {
+            Filter aux = new Filter
+            {
+                Term = Term,
+                Categoria = Category,
+                PrecoMin = Min,
+                PrecoMax = Max,
+            };
+            await AuctionsService.FilteredSearch(aux);
+            StateHasChanged();
+        } 
+        else
+        {
+            await AuctionsService.GetAuctions(); 
+        }
         NavigationManager.LocationChanged += OnLocationChanged;
     }
 

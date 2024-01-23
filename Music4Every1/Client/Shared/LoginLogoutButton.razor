@@ -13,8 +13,11 @@
 
 @code {
 
-    void Login ()
+    async void Login ()
     {
+        var current_url = new Uri(NavigationManager.Uri);
+        string path = current_url.PathAndQuery;
+        await LocalStorage.SetItemAsync("redirect", path);
         NavigationManager.NavigateTo("/login");
     }
 

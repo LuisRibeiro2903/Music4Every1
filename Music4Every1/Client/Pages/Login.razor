@@ -1,6 +1,8 @@
 ﻿@page "/login"
 @inject IAuthService AuthService
 @inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
 
 
 <h3>Login</h3>
@@ -16,8 +18,17 @@
 @code {
     UserLoginDTO user = new UserLoginDTO();
 
+    string redirect = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        redirect = await LocalStorage.GetItemAsync<string>("redirect");
+        await LocalStorage.RemoveItemAsync("redirect");
+    }
+
     async Task HandleLogin()
     {
+        string path = "/";
         var token = string.Empty;
         try
         {
@@ -37,5 +48,11 @@
         }
         Console.WriteLine(token);
         await LocalStorage.SetItemAsync("token", token);
+        await AuthStateProvider.GetAuthenticationStateAsync();
+        if (!string.IsNullOrEmpty(redirect))
+        {
+            path = redirect;
+        }
+        NavigationManager.NavigateTo(path);
     }
 }
