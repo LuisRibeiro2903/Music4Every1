@@ -1,0 +1,19 @@
+﻿@inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorage
+
+<AuthorizeView>
+    <NotAuthorized>
+        <button @onclick="Register" class="btn btn-primary register-button" style="margin">Registar</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    async void Register ()
+    {
+        var current_url = new Uri(NavigationManager.Uri);
+        string path = current_url.PathAndQuery;
+        await LocalStorage.SetItemAsync("redirect", path);
+        NavigationManager.NavigateTo("/register");
+    }
+}

@@ -13,56 +13,58 @@
     <option value="electric">Elétricos</option>
     <option value="wind">Sopros</option>
 </select>
-<div class="wrapper">
-    <header>
-        <h3>Intevalo de preços</h3>
-    </header>
-    <div class="price-input">
-        <div class="field">
-            <span>Min</span>
-            <input type="number" class="input-min" @bind-value="@filter.PrecoMin" />
-        </div>
-        <div class="separator">-</div>
-        <div class="field">
-            <span>Max</span>
-            <input type="number" class="input-max" @bind-value="@filter.PrecoMax" />
+<div style="color: #fff;">
+    <div class="wrapper">
+        <header>
+            <h3>Intevalo de preços</h3>
+        </header>
+        <div class="price-input">
+            <div class="field">
+                <span>Min</span>
+                <input type="number" class="input-min" @bind-value="@filter.PrecoMin" />
+            </div>
+            <div class="separator">-</div>
+            <div class="field">
+                <span>Max</span>
+                <input type="number" class="input-max" @bind-value="@filter.PrecoMax" />
+            </div>
         </div>
     </div>
-</div>
 
-@if (AuctionsService.IsLoading)
-{
-    <p><em>Loading...</em></p>
-}
-else if (!AuctionsService.Auctions.Any())
-{
-    <p><em>Não houve resultados para a sua pesquisa...</em></p>
-}
-else
-{
-    <h3>Leilões</h3>
+    @if (AuctionsService.IsLoading)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else if (!AuctionsService.Auctions.Any())
+    {
+        <p><em>Não houve resultados para a sua pesquisa...</em></p>
+    }
+    else
+    {
+        <h3>Leilões</h3>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Descrição</th>
-                <th>Data de início</th>
-                <th>Preço inicial</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var auction in AuctionsService.Auctions)
-            {
+        <table class="table" style="color: #fff;">
+            <thead>
                 <tr>
-                    <td>@auction.Descricao</td>
-                    <td>@auction.DataInicio</td>
-                    <td>@auction.PrecoInicial</td>
+                    <th>Descrição</th>
+                    <th>Data de início</th>
+                    <th>Preço inicial</th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var auction in AuctionsService.Auctions)
+                {
+                    <tr>
+                        <td>@auction.Descricao</td>
+                        <td>@auction.DataInicio</td>
+                        <td>@auction.PrecoInicial</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
 
 @code {
 
@@ -129,7 +131,24 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await AuctionsService.GetAuctions();
+        var current_url = new Uri(NavigationManager.Uri);
+        string path = current_url.PathAndQuery;
+        if (!path.Equals("/search"))
+        {
+            Filter aux = new Filter
+            {
+                Term = Term,
+                Categoria = Category,
+                PrecoMin = Min,
+                PrecoMax = Max,
+            };
+            await AuctionsService.FilteredSearch(aux);
+            StateHasChanged();
+        } 
+        else
+        {
+            await AuctionsService.GetAuctions(); 
+        }
         NavigationManager.LocationChanged += OnLocationChanged;
     }
 

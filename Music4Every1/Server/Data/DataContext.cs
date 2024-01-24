@@ -27,11 +27,11 @@
             );
 
             modelBuilder.Entity<Item>().HasData(
-                new Item { Id = 1, Nome = "Guitarra Elétrica", Categoria = "Cordas", LeilaoId = 1 },
-                new Item { Id = 2, Nome = "Bateria", Categoria = "Percussão", LeilaoId = 2 },
-                new Item { Id = 3, Nome = "Piano", Categoria = "Teclas", LeilaoId = 3 },
-                new Item { Id = 4, Nome = "Violino", Categoria = "Cordas", LeilaoId = 4 },
-                new Item { Id = 5, Nome = "Saxofone", Categoria = "Sopro", LeilaoId = 5 }
+                new Item { Id = 1, Nome = "Guitarra Elétrica", Categoria = "electric", LeilaoId = 1 },
+                new Item { Id = 2, Nome = "Bateria", Categoria = "percussion", LeilaoId = 2 },
+                new Item { Id = 3, Nome = "Piano", Categoria = "strings", LeilaoId = 3 },
+                new Item { Id = 4, Nome = "Violino", Categoria = "strings", LeilaoId = 4 },
+                new Item { Id = 5, Nome = "Saxofone", Categoria = "wind", LeilaoId = 5 }
             );
         }
 

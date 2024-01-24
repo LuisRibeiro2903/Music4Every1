@@ -1,6 +1,8 @@
 ﻿@page "/register"
 @inject IAuthService AuthService
 @inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
 
 <h2>Registar uma conta nova</h2>
 
@@ -22,11 +24,19 @@
     UserRegisterDTO user = new UserRegisterDTO();
     //private ValidationMessageStore validationMessages = new ValidationMessageStore();
     string confirm = string.Empty;
+    string redirect = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        redirect = await LocalStorage.GetItemAsync<string>("redirect");
+        await LocalStorage.RemoveItemAsync("redirect");
+    }
     async Task HandleRegister()
     {
+        string path = "/";
         /*
         if (user.Password != confirm)
-        {
+            {
             // Set a validation error message for the confirm password field
             validationMessages.Add("confirm", "Passwords do not match.");
             return;
@@ -47,6 +57,12 @@
 
         Console.WriteLine(token);
         await LocalStorage.SetItemAsync("token", token);
+        await AuthStateProvider.GetAuthenticationStateAsync();
+        if (!string.IsNullOrEmpty(redirect))
+        {
+            path = redirect;
+        }
+        NavigationManager.NavigateTo(path);
     }
 
 }
