@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using System.Net.Http.Json;
 
 namespace Music4Every1.Client.Services.AuctionsService
@@ -35,6 +36,14 @@ namespace Music4Every1.Client.Services.AuctionsService
         {
             var response = await result.Content.ReadFromJsonAsync<List<Leilao>>();
             Auctions = response;
+        }
+
+        public async Task<int> CreateAuction (LeilaoCreateDTO leilao)
+        {
+            var result = await _http.PostAsJsonAsync("api/auctions/create", leilao);
+            int id = await result.Content.ReadFromJsonAsync<int>();
+            return id;
+
         }
     }
 }

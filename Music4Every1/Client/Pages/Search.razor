@@ -16,7 +16,7 @@
 <div style="color: #fff;">
     <div class="wrapper">
         <header>
-            <h3>Intevalo de preços</h3>
+            <h3>Intervalo de preços</h3>
         </header>
         <div class="price-input">
             <div class="field">
@@ -46,10 +46,10 @@
         <table class="table" style="color: #fff;">
             <thead>
                 <tr>
-                    <th>Descrição</th>
+                    <th>Titulo</th>
                     <th>Data de início</th>
                     <th>Preço inicial</th>
-                    <th></th>
+                    <th>Detalhes</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,6 +59,9 @@
                         <td>@auction.Descricao</td>
                         <td>@auction.DataInicio</td>
                         <td>@auction.PrecoInicial</td>
+                        <td>
+                            <button class="btn btn-detalhes" @onclick="(() => Show())"><i class="oi oi-magnifying-glass" style="font-size: 25px"></i></button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -113,6 +116,11 @@
         {
             NavigationManager.NavigateTo(search);
         }
+    }
+
+    private void Show()
+    {
+        
     }
 
     private void ClearResults()

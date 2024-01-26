@@ -12,7 +12,7 @@ using Music4Every1.Server.Data;
 namespace Music4Every1.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240123003004_Initial")]
+    [Migration("20240124221748_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,30 @@ namespace Music4Every1.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Music4Every1.Shared.Imagem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LeilaoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StoredFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeilaoId");
+
+                    b.ToTable("Imagens");
+                });
 
             modelBuilder.Entity("Music4Every1.Shared.Item", b =>
                 {
@@ -54,35 +78,35 @@ namespace Music4Every1.Server.Migrations
                         new
                         {
                             Id = 1,
-                            Categoria = "Cordas",
+                            Categoria = "electric",
                             LeilaoId = 1,
                             Nome = "Guitarra Elétrica"
                         },
                         new
                         {
                             Id = 2,
-                            Categoria = "Percussão",
+                            Categoria = "percussion",
                             LeilaoId = 2,
                             Nome = "Bateria"
                         },
                         new
                         {
                             Id = 3,
-                            Categoria = "Teclas",
+                            Categoria = "strings",
                             LeilaoId = 3,
                             Nome = "Piano"
                         },
                         new
                         {
                             Id = 4,
-                            Categoria = "Cordas",
+                            Categoria = "strings",
                             LeilaoId = 4,
                             Nome = "Violino"
                         },
                         new
                         {
                             Id = 5,
-                            Categoria = "Sopro",
+                            Categoria = "wind",
                             LeilaoId = 5,
                             Nome = "Saxofone"
                         });
@@ -96,8 +120,8 @@ namespace Music4Every1.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CompradorId")
-                        .HasColumnType("int");
+                    b.Property<string>("CompradorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("datetime2");
@@ -115,8 +139,9 @@ namespace Music4Every1.Server.Migrations
                     b.Property<double>("PrecoInicial")
                         .HasColumnType("float");
 
-                    b.Property<int>("VendedorId")
-                        .HasColumnType("int");
+                    b.Property<string>("VendedorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -135,7 +160,7 @@ namespace Music4Every1.Server.Migrations
                             Duracao = new TimeSpan(1, 0, 0, 0, 0),
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
-                            VendedorId = 1
+                            VendedorId = "joao@gmail.com"
                         },
                         new
                         {
@@ -145,7 +170,7 @@ namespace Music4Every1.Server.Migrations
                             Duracao = new TimeSpan(1, 0, 0, 0, 0),
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
-                            VendedorId = 2
+                            VendedorId = "maria@gmail.com"
                         },
                         new
                         {
@@ -155,7 +180,7 @@ namespace Music4Every1.Server.Migrations
                             Duracao = new TimeSpan(1, 0, 0, 0, 0),
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
-                            VendedorId = 3
+                            VendedorId = "jose@gmail.com"
                         },
                         new
                         {
@@ -165,7 +190,7 @@ namespace Music4Every1.Server.Migrations
                             Duracao = new TimeSpan(1, 0, 0, 0, 0),
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
-                            VendedorId = 4
+                            VendedorId = "ana@gmail.com"
                         },
                         new
                         {
@@ -175,21 +200,14 @@ namespace Music4Every1.Server.Migrations
                             Duracao = new TimeSpan(1, 0, 0, 0, 0),
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
-                            VendedorId = 5
+                            VendedorId = "carlos@gmail.com"
                         });
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Utilizador", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -206,15 +224,14 @@ namespace Music4Every1.Server.Migrations
                     b.Property<double>("Saldo")
                         .HasColumnType("float");
 
-                    b.HasKey("Id");
+                    b.HasKey("Email");
 
                     b.ToTable("Utilizadores");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Email = "joao@gmail,com",
+                            Email = "joao@gmail.com",
                             Nome = "João",
                             PasswordHash = new byte[] { 49, 50, 51 },
                             PasswordSalt = new byte[] { 49, 50, 51 },
@@ -222,7 +239,6 @@ namespace Music4Every1.Server.Migrations
                         },
                         new
                         {
-                            Id = 2,
                             Email = "maria@gmail.com",
                             Nome = "Maria",
                             PasswordHash = new byte[] { 49, 50, 51 },
@@ -231,7 +247,6 @@ namespace Music4Every1.Server.Migrations
                         },
                         new
                         {
-                            Id = 3,
                             Email = "jose@gmail.com",
                             Nome = "José",
                             PasswordHash = new byte[] { 49, 50, 51 },
@@ -240,7 +255,6 @@ namespace Music4Every1.Server.Migrations
                         },
                         new
                         {
-                            Id = 4,
                             Email = "ana@gmail.com",
                             Nome = "Ana",
                             PasswordHash = new byte[] { 49, 50, 51 },
@@ -249,13 +263,23 @@ namespace Music4Every1.Server.Migrations
                         },
                         new
                         {
-                            Id = 5,
                             Email = "carlos@gmail.com",
                             Nome = "Carlos",
                             PasswordHash = new byte[] { 49, 50, 51 },
                             PasswordSalt = new byte[] { 49, 50, 51 },
                             Saldo = 1000.0
                         });
+                });
+
+            modelBuilder.Entity("Music4Every1.Shared.Imagem", b =>
+                {
+                    b.HasOne("Music4Every1.Shared.Leilao", "Leilao")
+                        .WithMany("Imagens")
+                        .HasForeignKey("LeilaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Leilao");
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Item", b =>
@@ -288,6 +312,8 @@ namespace Music4Every1.Server.Migrations
 
             modelBuilder.Entity("Music4Every1.Shared.Leilao", b =>
                 {
+                    b.Navigation("Imagens");
+
                     b.Navigation("Itens");
                 });
 #pragma warning restore 612, 618

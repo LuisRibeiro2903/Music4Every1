@@ -1,0 +1,91 @@
+﻿@page "/auction"
+@using System.Net.Http.Headers
+@inject IAuctionsService AuctionService
+
+<EditForm Model="auction" OnSubmit="CreateAuction">
+    <div style="color: #fff;">
+        <div class="form-group">
+            <label for="titulo">Titulo</label>
+            <InputText id="titulo" class="form-control" @bind-Value="titulo" />
+        </div>
+        <div class="form-group">
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" class="form-control" style="width: 100%; height: 120px;" @bind="auction.Descricao"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="dataInicio">Data de início</label>
+            <InputDate id="dataInicio" class="form-control" @bind-Value="date" />
+            <InputText type="time" id="dataInicio" @bind-Value="time" />
+            
+        </div>
+        <div class="form-group">
+            <label for="precoInicial">Preço inicial</label>
+            <InputNumber id="precoInicial" class="form-control" @bind-Value="auction.PrecoInicial" />
+        </div>
+        <div class="form-group">
+            <label for="imagens">Imagens</label>
+            <InputFile OnChange="@OnInputFileChange" id="imagens" class="form-control" multiple />
+            @if(fileNames.Count > 0)
+            {
+                <ul>
+                    @foreach(var fileName in fileNames)
+                    {
+                        <li>Ficheiro: @fileName</li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Criar Leilão</button>
+    
+</EditForm>
+
+@code {
+    string titulo = "";
+    LeilaoCreateDTO auction = new();
+    private string time = "";
+    private List<string> fileNames = new(); 
+
+    DateTime date = DateTime.Now;
+
+    async Task CreateAuction()
+    {
+        auction.DataInicio = CombineDateAndTime(date, time);
+        int id = await AuctionService.CreateAuction(auction);
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        using var content = new MultipartFormDataContent();   
+
+        foreach(var file in e.GetMultipleFiles())
+        {
+            var fileContent = new StreamContent(file.OpenReadStream());
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+
+            fileNames.Add(file.Name);
+
+            content.Add(
+                content: fileContent,
+                name: "\"files\"",
+                fileName: file.Name);
+        }
+        
+    }
+
+    static DateTime CombineDateAndTime(DateTime date, string timeString)
+    {
+        // Parse the time string
+        if (TimeSpan.TryParse(timeString, out TimeSpan timeSpan))
+        {
+            // Combine date and time
+            return date.Date + timeSpan;
+        }
+        else
+        {
+            // Handle parsing error (invalid time string)
+            throw new ArgumentException("Invalid time string format", nameof(timeString));
+        }
+    }
+}
