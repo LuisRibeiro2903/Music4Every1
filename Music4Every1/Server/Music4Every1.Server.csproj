@@ -21,5 +21,9 @@
     <ProjectReference Include="..\Shared\Music4Every1.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="uploads\images\" />
+  </ItemGroup>
+
 
 </Project>

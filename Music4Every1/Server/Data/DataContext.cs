@@ -10,20 +10,21 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Utilizador>().HasData(
-                new Utilizador { Id = 1, Nome = "João",Email = "joao@gmail,com" ,PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"),  PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
-                new Utilizador { Id = 2, Nome = "Maria",Email = "maria@gmail.com", PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
-                new Utilizador { Id = 3, Nome = "José",Email = "jose@gmail.com" ,PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
-                new Utilizador { Id = 4, Nome = "Ana",Email = "ana@gmail.com", PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
-                new Utilizador { Id = 5, Nome = "Carlos", Email = "carlos@gmail.com", PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 }
+                new Utilizador {Nome = "João",Email = "joao@gmail.com" ,PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"),  PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
+                new Utilizador {Nome = "Maria",Email = "maria@gmail.com", PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
+                new Utilizador {Nome = "José",Email = "jose@gmail.com" ,PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
+                new Utilizador {Nome = "Ana",Email = "ana@gmail.com", PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 },
+                new Utilizador {Nome = "Carlos", Email = "carlos@gmail.com", PasswordHash = System.Text.Encoding.UTF8.GetBytes("123"), PasswordSalt = System.Text.Encoding.UTF8.GetBytes("123"), Saldo = 1000 }
             );
             modelBuilder.Entity<Leilao>().HasMany(l => l.Itens).WithOne(i => i.Leilao).HasForeignKey(i => i.LeilaoId);
+            modelBuilder.Entity<Leilao>().HasMany(l => l.Imagens).WithOne(i => i.Leilao).HasForeignKey(i => i.LeilaoId);
 
             modelBuilder.Entity<Leilao>().HasData(
-                new Leilao { Id = 1, VendedorId = 1, Descricao = "Guitarra", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 2, VendedorId = 2, Descricao = "Bateria", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 3, VendedorId = 3, Descricao = "Piano", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 4, VendedorId = 4, Descricao = "Violino", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 5, VendedorId = 5, Descricao = "Saxofone", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 }
+                new Leilao { Id = 1, VendedorId = "joao@gmail.com", Descricao = "Guitarra", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
+                new Leilao { Id = 2, VendedorId = "maria@gmail.com", Descricao = "Bateria", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
+                new Leilao { Id = 3, VendedorId = "jose@gmail.com", Descricao = "Piano", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
+                new Leilao { Id = 4, VendedorId = "ana@gmail.com", Descricao = "Violino", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
+                new Leilao { Id = 5, VendedorId = "carlos@gmail.com", Descricao = "Saxofone", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 }
             );
 
             modelBuilder.Entity<Item>().HasData(
@@ -33,11 +34,13 @@
                 new Item { Id = 4, Nome = "Violino", Categoria = "strings", LeilaoId = 4 },
                 new Item { Id = 5, Nome = "Saxofone", Categoria = "wind", LeilaoId = 5 }
             );
+
         }
 
         public DbSet<Utilizador> Utilizadores { get; set; }
 
         public DbSet<Leilao> Leiloes { get; set; }
 
+        public DbSet<Imagem> Imagens { get; set; }
     }
 }
