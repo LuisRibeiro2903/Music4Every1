@@ -127,8 +127,8 @@ namespace Music4Every1.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("Duracao")
-                        .HasColumnType("time");
+                    b.Property<int>("Duracao")
+                        .HasColumnType("int");
 
                     b.Property<double?>("PrecoCompraImediata")
                         .HasColumnType("float");
@@ -154,7 +154,7 @@ namespace Music4Every1.Server.Migrations
                             Id = 1,
                             DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Descricao = "Guitarra",
-                            Duracao = new TimeSpan(1, 0, 0, 0, 0),
+                            Duracao = 1,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             VendedorId = "joao@gmail.com"
@@ -164,7 +164,7 @@ namespace Music4Every1.Server.Migrations
                             Id = 2,
                             DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Descricao = "Bateria",
-                            Duracao = new TimeSpan(1, 0, 0, 0, 0),
+                            Duracao = 1,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             VendedorId = "maria@gmail.com"
@@ -174,7 +174,7 @@ namespace Music4Every1.Server.Migrations
                             Id = 3,
                             DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Descricao = "Piano",
-                            Duracao = new TimeSpan(1, 0, 0, 0, 0),
+                            Duracao = 1,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             VendedorId = "jose@gmail.com"
@@ -184,7 +184,7 @@ namespace Music4Every1.Server.Migrations
                             Id = 4,
                             DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Descricao = "Violino",
-                            Duracao = new TimeSpan(1, 0, 0, 0, 0),
+                            Duracao = 1,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             VendedorId = "ana@gmail.com"
@@ -194,7 +194,7 @@ namespace Music4Every1.Server.Migrations
                             Id = 5,
                             DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Descricao = "Saxofone",
-                            Duracao = new TimeSpan(1, 0, 0, 0, 0),
+                            Duracao = 1,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             VendedorId = "carlos@gmail.com"

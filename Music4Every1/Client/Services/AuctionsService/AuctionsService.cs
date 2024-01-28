@@ -45,5 +45,10 @@ namespace Music4Every1.Client.Services.AuctionsService
             return id;
 
         }
+
+        public async Task UploadImages (MultipartFormDataContent files, int id)
+        {
+            await _http.PostAsync($"api/auctions/upload/{id}", files);
+        }
     }
 }

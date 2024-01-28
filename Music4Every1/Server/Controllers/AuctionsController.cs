@@ -60,10 +60,9 @@ namespace Music4Every1.Server.Controllers
         }
 
         [HttpPost("create")]
-        [Authorize]
         public async Task<ActionResult<int>> CreateAuction(LeilaoCreateDTO leilao)
         {
-
+            Console.WriteLine("ola");
             Request.Headers.TryGetValue("Authorization", out var token);
             var token_str = token.ToString().Replace("Bearer ", "").Trim();
             var claims = JwtParser.ParseClaimsFromJwt(token_str);
@@ -78,8 +77,8 @@ namespace Music4Every1.Server.Controllers
                 PrecoCompraImediata = leilao.PrecoCompraImediata,
             };
             var result = _context.Leiloes.Add(res);
-            int id = result.Entity.Id;
             await _context.SaveChangesAsync();
+            int id = result.Entity.Id;
             return Ok(id);
 
         }

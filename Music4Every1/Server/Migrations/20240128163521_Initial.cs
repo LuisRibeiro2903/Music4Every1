@@ -38,7 +38,7 @@ namespace Music4Every1.Server.Migrations
                     CompradorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Duracao = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Duracao = table.Column<int>(type: "int", nullable: false),
                     PrecoInicial = table.Column<double>(type: "float", nullable: false),
                     PrecoCompraImediata = table.Column<double>(type: "float", nullable: true)
                 },
@@ -117,11 +117,11 @@ namespace Music4Every1.Server.Migrations
                 columns: new[] { "Id", "CompradorId", "DataInicio", "Descricao", "Duracao", "PrecoCompraImediata", "PrecoInicial", "VendedorId" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Guitarra", new TimeSpan(1, 0, 0, 0, 0), 200.0, 100.0, "joao@gmail.com" },
-                    { 2, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bateria", new TimeSpan(1, 0, 0, 0, 0), 200.0, 100.0, "maria@gmail.com" },
-                    { 3, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Piano", new TimeSpan(1, 0, 0, 0, 0), 200.0, 100.0, "jose@gmail.com" },
-                    { 4, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Violino", new TimeSpan(1, 0, 0, 0, 0), 200.0, 100.0, "ana@gmail.com" },
-                    { 5, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saxofone", new TimeSpan(1, 0, 0, 0, 0), 200.0, 100.0, "carlos@gmail.com" }
+                    { 1, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Guitarra", 1, 200.0, 100.0, "joao@gmail.com" },
+                    { 2, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bateria", 1, 200.0, 100.0, "maria@gmail.com" },
+                    { 3, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Piano", 1, 200.0, 100.0, "jose@gmail.com" },
+                    { 4, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Violino", 1, 200.0, 100.0, "ana@gmail.com" },
+                    { 5, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saxofone", 1, 200.0, 100.0, "carlos@gmail.com" }
                 });
 
             migrationBuilder.InsertData(

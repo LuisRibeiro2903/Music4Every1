@@ -11,5 +11,7 @@
 
         Task<int> CreateAuction(LeilaoCreateDTO leilao);
 
+        Task UploadImages(MultipartFormDataContent files, int id);
+
     }
 }

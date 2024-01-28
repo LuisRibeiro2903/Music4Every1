@@ -20,11 +20,11 @@
             modelBuilder.Entity<Leilao>().HasMany(l => l.Imagens).WithOne(i => i.Leilao).HasForeignKey(i => i.LeilaoId);
 
             modelBuilder.Entity<Leilao>().HasData(
-                new Leilao { Id = 1, VendedorId = "joao@gmail.com", Descricao = "Guitarra", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 2, VendedorId = "maria@gmail.com", Descricao = "Bateria", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 3, VendedorId = "jose@gmail.com", Descricao = "Piano", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 4, VendedorId = "ana@gmail.com", Descricao = "Violino", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 5, VendedorId = "carlos@gmail.com", Descricao = "Saxofone", DataInicio = new DateTime(2021, 1, 1), Duracao = new TimeSpan(1, 0, 0, 0), PrecoInicial = 100, PrecoCompraImediata = 200 }
+                new Leilao { Id = 1, VendedorId = "joao@gmail.com", Descricao = "Guitarra", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
+                new Leilao { Id = 2, VendedorId = "maria@gmail.com", Descricao = "Bateria", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
+                new Leilao { Id = 3, VendedorId = "jose@gmail.com", Descricao = "Piano", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
+                new Leilao { Id = 4, VendedorId = "ana@gmail.com", Descricao = "Violino", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
+                new Leilao { Id = 5, VendedorId = "carlos@gmail.com", Descricao = "Saxofone", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 }
             );
 
             modelBuilder.Entity<Item>().HasData(
