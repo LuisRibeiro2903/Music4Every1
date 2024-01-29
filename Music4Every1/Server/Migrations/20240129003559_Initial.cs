@@ -40,7 +40,8 @@ namespace Music4Every1.Server.Migrations
                     DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Duracao = table.Column<int>(type: "int", nullable: false),
                     PrecoInicial = table.Column<double>(type: "float", nullable: false),
-                    PrecoCompraImediata = table.Column<double>(type: "float", nullable: true)
+                    PrecoCompraImediata = table.Column<double>(type: "float", nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,7 +67,8 @@ namespace Music4Every1.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StoredFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LeilaoId = table.Column<int>(type: "int", nullable: false)
+                    LeilaoId = table.Column<int>(type: "int", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,14 +116,14 @@ namespace Music4Every1.Server.Migrations
 
             migrationBuilder.InsertData(
                 table: "Leiloes",
-                columns: new[] { "Id", "CompradorId", "DataInicio", "Descricao", "Duracao", "PrecoCompraImediata", "PrecoInicial", "VendedorId" },
+                columns: new[] { "Id", "CompradorId", "DataInicio", "Descricao", "Duracao", "Estado", "PrecoCompraImediata", "PrecoInicial", "VendedorId" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Guitarra", 1, 200.0, 100.0, "joao@gmail.com" },
-                    { 2, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bateria", 1, 200.0, 100.0, "maria@gmail.com" },
-                    { 3, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Piano", 1, 200.0, 100.0, "jose@gmail.com" },
-                    { 4, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Violino", 1, 200.0, 100.0, "ana@gmail.com" },
-                    { 5, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saxofone", 1, 200.0, 100.0, "carlos@gmail.com" }
+                    { 1, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Guitarra", 1, "FINISHED", 200.0, 100.0, "joao@gmail.com" },
+                    { 2, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bateria", 1, "FINISHED", 200.0, 100.0, "maria@gmail.com" },
+                    { 3, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Piano", 1, "FINISHED", 200.0, 100.0, "jose@gmail.com" },
+                    { 4, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Violino", 1, "FINISHED", 200.0, 100.0, "ana@gmail.com" },
+                    { 5, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saxofone", 1, "FINISHED", 200.0, 100.0, "carlos@gmail.com" }
                 });
 
             migrationBuilder.InsertData(

@@ -58,7 +58,8 @@
     async Task CreateAuction()
     {
         auction.DataInicio = CombineDateAndTime(date, time);
-        auction.Duracao = int.Parse(duracao);   
+        auction.Estado = (DateTime.Now > auction.DataInicio) ? "STARTED" : "SCHEDULED";
+        auction.Duracao = int.Parse(duracao);
         int id = await AuctionService.CreateAuction(auction);
         await AuctionService.UploadImages(content, id);
         content.Dispose();

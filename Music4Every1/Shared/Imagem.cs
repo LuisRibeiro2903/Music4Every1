@@ -13,5 +13,6 @@ namespace Music4Every1.Shared
         public string? StoredFileName { get; set; }
         public int LeilaoId { get; set; }
         public Leilao Leilao { get; set; }
+        public string? ContentType { get; set; }
     }
 }
