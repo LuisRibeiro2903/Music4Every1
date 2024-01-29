@@ -42,5 +42,7 @@
         public DbSet<Leilao> Leiloes { get; set; }
 
         public DbSet<Imagem> Imagens { get; set; }
+
+        public DbSet<Item> Itens { get; set; }
     }
 }

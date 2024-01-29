@@ -9,6 +9,7 @@ namespace Music4Every1.Shared
     public class Leilao
     {
         public int Id { get; set; }
+        public string Titulo { get; set; } = string.Empty;
         public Utilizador Vendedor { get; set; }
         public string VendedorId { get; set; }
         public Utilizador? Comprador { get; set; }

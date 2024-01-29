@@ -88,6 +88,7 @@ namespace Music4Every1.Server.Controllers
             Leilao res = new Leilao
             {
                 VendedorId = email,
+                Titulo = leilao.Titulo,
                 Descricao = leilao.Descricao,
                 DataInicio = leilao.DataInicio,
                 Duracao = leilao.Duracao,
@@ -97,6 +98,11 @@ namespace Music4Every1.Server.Controllers
             var result = await _context.Leiloes.AddAsync(res);
             await _context.SaveChangesAsync();
             int id = result.Entity.Id;
+            foreach(var item in leilao.Itens)
+            {
+                await _context.Itens.AddAsync(new Item { Categoria = item.Categoria, Nome = item.Nome, LeilaoId = id});
+            }
+            await _context.SaveChangesAsync();
             return Ok(id);
 
         }

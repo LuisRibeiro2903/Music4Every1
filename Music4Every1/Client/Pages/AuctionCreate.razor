@@ -7,7 +7,7 @@
     <div style="color: #fff;">
         <div class="form-group">
             <label for="titulo">Titulo</label>
-            <InputText id="titulo" class="form-control" @bind-Value="titulo" />
+            <InputText id="titulo" class="form-control" @bind-Value="auction.Titulo" />
         </div>
         <div class="form-group">
             <label for="descricao">Descrição</label>
@@ -39,19 +39,54 @@
                 </ul>
             }
         </div>
+        <!-- Add item section -->
+        <div style="color: #fff;">
+            <h4>Add Item</h4>
+            <div class="form-group">
+                <label for="newItemName">Item Name</label>
+                <InputText id="newItemName" class="form-control" @bind-Value="newItemName" />
+            </div>
+            <div class="form-group">
+                <label for="newItemCategory">Item Category</label>
+                <select class="custom-select" @bind="@newItemCategory">
+                    <option value="strings">Cordas</option>
+                    <option value="percussion">Percussão</option>
+                    <option value="electric">Elétricos</option>
+                    <option value="wind">Sopros</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-success" @onclick="AddNewItem">Add Item</button>
+            <br />
+
+            <!-- Display added items -->
+            @if (auction.Itens != null && auction.Itens.Any())
+            {
+                <h4>Added Itens</h4>
+                <ul>
+                    @foreach (var item in auction.Itens)
+                    {
+                        <li>@item.Nome</li>
+                    }
+                </ul>
+            }
+        </div>
+
     </div>
     <br/>
     <button type="submit" class="btn btn-primary">Criar Leilão</button>
     
 </EditForm>
 
+
 @code {
-    string titulo = "";
     string duracao = "";
+    string newItemName = "";
+    string newItemCategory = "";
     LeilaoCreateDTO auction = new();
     private string time = "";
     private List<string> fileNames = new();
     MultipartFormDataContent content = new();
+    Item newItem = new();
 
     DateTime date = DateTime.Now;
 
@@ -82,6 +117,23 @@
                 fileName: file.Name);
         }
         
+    }
+
+    void AddNewItem()
+    {
+        if (!string.IsNullOrEmpty(newItemName) && !string.IsNullOrEmpty(newItemCategory))
+        {
+            if (auction.Itens == null)
+            {
+                auction.Itens = new List<ItemDTO>();
+            }
+
+            auction.Itens.Add(new ItemDTO { Nome = newItemName, Categoria = newItemCategory });
+
+            // Clear input fields
+            newItemName = "";
+            newItemCategory = "";
+        }
     }
 
     static DateTime CombineDateAndTime(DateTime date, string timeString)

@@ -72,7 +72,7 @@ namespace Music4Every1.Server.Migrations
 
                     b.HasIndex("LeilaoId");
 
-                    b.ToTable("Item");
+                    b.ToTable("Itens");
 
                     b.HasData(
                         new
@@ -143,6 +143,10 @@ namespace Music4Every1.Server.Migrations
                     b.Property<double>("PrecoInicial")
                         .HasColumnType("float");
 
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("VendedorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -165,6 +169,7 @@ namespace Music4Every1.Server.Migrations
                             Estado = "FINISHED",
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
+                            Titulo = "",
                             VendedorId = "joao@gmail.com"
                         },
                         new
@@ -176,6 +181,7 @@ namespace Music4Every1.Server.Migrations
                             Estado = "FINISHED",
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
+                            Titulo = "",
                             VendedorId = "maria@gmail.com"
                         },
                         new
@@ -187,6 +193,7 @@ namespace Music4Every1.Server.Migrations
                             Estado = "FINISHED",
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
+                            Titulo = "",
                             VendedorId = "jose@gmail.com"
                         },
                         new
@@ -198,6 +205,7 @@ namespace Music4Every1.Server.Migrations
                             Estado = "FINISHED",
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
+                            Titulo = "",
                             VendedorId = "ana@gmail.com"
                         },
                         new
@@ -209,6 +217,7 @@ namespace Music4Every1.Server.Migrations
                             Estado = "FINISHED",
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
+                            Titulo = "",
                             VendedorId = "carlos@gmail.com"
                         });
                 });
