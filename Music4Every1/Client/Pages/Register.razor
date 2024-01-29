@@ -4,9 +4,15 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
 
+<!-- Ainda falta meter para o utilizador colocar o seu ID(nome) e método de contacto. O CSS já inclui isso -->
+
 <h2>Registar uma conta nova</h2>
 
 <EditForm Model="user" OnSubmit="HandleRegister">
+
+    <label for="user">Username</label>
+    <InputText id="user" @bind-Value="user.Name" />
+
     <label for="email">Email</label>
     <InputText id="email" @bind-Value="user.Email" />
 
@@ -15,6 +21,11 @@
 
     <label for="confirmPassword">Confirm Password</label>
     <InputText id="confirmPassword" @bind-Value="confirm" type="password" />
+
+    <laber for="metodoContacto"> Contact Method</laber>
+    <InputText id="metodoContacto" @bind-Value="user.ContactMethod" />
+
+    <input type="checkbox" class="checkbox"><span>Use email as contact method</span>
 
     <button type="submit" class="btn btn-primary">Register</button>
 </EditForm>

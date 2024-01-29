@@ -1,0 +1,67 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    color: #fff;
+    background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url(/images/fundo.png);
+    padding: 20px;
+}
+
+.form-group {
+    background-color: #292929;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10%;
+}
+
+.form-group label {
+    color: #fff; /* Make sure the label text is visible against dark background */
+}
+
+.form-group .form-control {
+    width: 96%;
+    padding: 10px;
+    margin-bottom: 10px; /* Add space between form fields */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #333; /* Slightly lighter than form-group for contrast */
+    color: #fff;
+}
+
+.form-group .form-control:focus {
+    border-color: #fc7f26;
+    outline: none;
+}
+
+.form-group button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #fc7f26;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 20px; /* Add space above the button */
+    display: block; /* Ensure button takes full width */
+}
+
+.form-group button:hover {
+    background-color: #e96e1b;
+}
+
+.form-group input[type="file"] {
+    border-color: #fc7f26; /* Style the file input */
+}
+
+/* If there's a container for buttons, style it accordingly */
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px; /* Add space above the button container */
+}
+
+/* Add specific styles for the file list if needed */
+.file-list {
+    list-style: none; /* Remove default list styling */
+    padding-left: 0; /* Remove default padding */
+}
