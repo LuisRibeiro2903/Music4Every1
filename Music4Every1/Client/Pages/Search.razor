@@ -60,7 +60,7 @@
                         <td>@auction.DataInicio</td>
                         <td>@auction.PrecoInicial</td>
                         <td>
-                            <button class="btn btn-detalhes" @onclick="(() => Show())"><i class="oi oi-magnifying-glass" style="font-size: 25px"></i></button>
+                            <button class="btn btn-detalhes" @onclick="(() => Show(auction.Id))"><i class="oi oi-magnifying-glass" style="font-size: 25px"></i></button>
                         </td>
                     </tr>
                 }
@@ -118,9 +118,9 @@
         }
     }
 
-    private void Show()
+    private void Show(int Id)
     {
-        
+        NavigationManager.NavigateTo($"/auction/{Id}");
     }
 
     private void ClearResults()

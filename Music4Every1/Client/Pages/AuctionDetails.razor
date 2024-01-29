@@ -1,33 +1,34 @@
 ﻿@page "/auction/{id:int}"
 @inject IAuctionsService AuctionService
 
-<h3>Leilões</h3>
+<div style="color: #fff;">
+    
+    <h3>Auction Details</h3>
 
-<table class="table">
-<thead>
-        <tr>
-            <th>Descrição</th>
-            <th>Data de início</th>
-            <th>Preço inicial</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var auction in AuctionService.Auctions)
-        {
-            <tr>
-                <td>@auction.Descricao</td>
-                <td>@auction.DataInicio</td>
-                <td>@auction.PrecoInicial</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @if (auction != null)
+    {
+        <div>
+            <h4>Auction ID: @auction.Id</h4>
+            <p>Description: @auction.Descricao</p>
+            <p>Start Date: @auction.DataInicio</p>
+            <p>Duration: @auction.Duracao hours</p>
+            <p>Initial Price: @auction.PrecoInicial</p>
+            <p>Immediate Purchase Price: @auction.PrecoCompraImediata</p>
+            <p>Seller: @auction.VendedorId</p>
+
+        
+        </div>
+    }
+</div>
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private LeilaoDetailsDTO auction;
 
     protected override async Task OnInitializedAsync()
     {
-        await AuctionService.GetAuctions();
+        auction = await AuctionService.GetAuctionById(Id);
     }
 }

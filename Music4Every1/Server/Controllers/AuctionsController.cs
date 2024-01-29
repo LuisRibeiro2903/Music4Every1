@@ -28,6 +28,24 @@ namespace Music4Every1.Server.Controllers
             return Ok(results);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<LeilaoDetailsDTO>> GetAuctionById(int id)
+        {
+            var response = await _context.Leiloes.Include(l => l.Itens).Include(l => l.Imagens).FirstOrDefaultAsync(x => x.Id == id);
+            LeilaoDetailsDTO result = new LeilaoDetailsDTO
+            {
+                Id = response.Id,
+                VendedorId = response.VendedorId,
+                Descricao = response.Descricao,
+                DataInicio = response.DataInicio,
+                Duracao = response.Duracao,
+                PrecoInicial = response.PrecoInicial,
+                PrecoCompraImediata = response.PrecoCompraImediata,
+                Estado = response.Estado
+            };
+            return Ok(result);
+        }
+
         [HttpPost("search")]
         public async Task<ActionResult<List<Leilao>>> FilteredSearch(Filter search)
         {
@@ -76,7 +94,7 @@ namespace Music4Every1.Server.Controllers
                 PrecoInicial = leilao.PrecoInicial,
                 PrecoCompraImediata = leilao.PrecoCompraImediata,
             };
-            var result = _context.Leiloes.Add(res);
+            var result = await _context.Leiloes.AddAsync(res);
             await _context.SaveChangesAsync();
             int id = result.Entity.Id;
             return Ok(id);
@@ -96,9 +114,9 @@ namespace Music4Every1.Server.Controllers
 
                 await using FileStream fs = new(path, FileMode.Create);
                 await file.CopyToAsync(fs);
-                _context.Imagens.Add(new Imagem { LeilaoId = id, StoredFileName = trustedFileNameForFileStorage });
+                await _context.Imagens.AddAsync(new Imagem { LeilaoId = id,FileName= untrustedFileName  ,StoredFileName = trustedFileNameForFileStorage , ContentType = file.ContentType});
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok();
         }
 

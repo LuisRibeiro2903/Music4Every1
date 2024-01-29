@@ -46,6 +46,12 @@ namespace Music4Every1.Client.Services.AuctionsService
 
         }
 
+        public async Task<LeilaoDetailsDTO> GetAuctionById (int id)
+        {
+            var result = await _http.GetFromJsonAsync<LeilaoDetailsDTO>($"api/auctions/{id}");
+            return result;
+        }
+
         public async Task UploadImages (MultipartFormDataContent files, int id)
         {
             await _http.PostAsync($"api/auctions/upload/{id}", files);
