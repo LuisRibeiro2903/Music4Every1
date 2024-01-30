@@ -8,10 +8,14 @@
     @if (auction != null)
     {
         <div>
+            @foreach(var image in images)
+            {
+                <img src="@image" alt="Base64 Image" />
+            }
             <h3>Leilão: @auction.Titulo</h3>
             <p>Descrição: @auction.Descricao</p>
             <p>Data de início: @auction.DataInicio</p>
-            <p>Duração: @auction.Duracao horas</p>
+            <p>Duração: @auction.Duracao minutos</p>
             <p>Preço inicial: @auction.PrecoInicial</p>
             <p>Preço atual: @auction.PrecoAtual</p>
             @if (auction.PrecoCompraImediata != null)
@@ -46,10 +50,12 @@
     public Boolean IsWatchlisted { get; set; }
     public double bid { get; set; }
     private LeilaoDetailsDTO auction;
+    private List<string> images = new();
 
     protected override async Task OnInitializedAsync()
     {
         auction = await AuctionService.GetAuctionById(Id);
+        images = await AuctionService.GetImages(Id);
         IsWatchlisted = await UsersService.IsWatchlisted(Id);
     }
 

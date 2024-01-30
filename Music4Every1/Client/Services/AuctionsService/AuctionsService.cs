@@ -77,5 +77,11 @@ namespace Music4Every1.Client.Services.AuctionsService
         {
             await _http.PostAsJsonAsync("api/auctions/bid", new Bid { Ammount = ammount, LeilaoId = id});
         }
+
+        public async Task<List<string>> GetImages(int id)
+        {
+            var result = await _http.GetFromJsonAsync<List<string>>($"api/auctions/images/{id}");
+            return result;
+        }
     }
 }

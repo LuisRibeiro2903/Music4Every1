@@ -9,5 +9,7 @@
         Task RemoveWatchlist(int leilaoId);
 
         Task<bool> IsWatchlisted(int leilaoId);
+
+        Task<double> GetWallet();
     }
 }

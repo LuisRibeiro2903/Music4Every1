@@ -20,5 +20,7 @@
 
         Task PlaceBid(double ammount, int id);
 
+        Task<List<string>> GetImages(int id);
+
     }
 }

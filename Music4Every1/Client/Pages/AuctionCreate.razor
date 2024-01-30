@@ -19,7 +19,7 @@
             <InputText type="time" id="dataInicio" @bind-Value="time" />
         </div>
         <div class="form-group">
-            <label for="duracao">Duração (Em Horas)</label>
+            <label for="duracao">Duração (Em horas)</label>
             <InputText id="duracao" class="form-control" @bind-Value="duracao" />
         </div>
         <div class="form-group">
@@ -94,7 +94,7 @@
     {
         auction.DataInicio = CombineDateAndTime(date, time);
         auction.Estado = (DateTime.Now > auction.DataInicio) ? "STARTED" : "SCHEDULED";
-        auction.Duracao = int.Parse(duracao);
+        auction.Duracao = int.Parse(duracao) * 60;
         int id = await AuctionService.CreateAuction(auction);
         await AuctionService.UploadImages(content, id);
         content.Dispose();

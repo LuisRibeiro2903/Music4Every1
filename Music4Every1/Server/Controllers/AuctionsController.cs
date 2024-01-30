@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Music4Every1.Shared;
 using System.Net;
 using System.Security.Claims;
+using System.IO;
+using System.Net.Mail;
 
 namespace Music4Every1.Server.Controllers
 {
@@ -203,12 +205,51 @@ namespace Music4Every1.Server.Controllers
             if (comprador_atual != null)
             {
                 comprador_atual.Saldo += auction.PrecoAtual;
+                using (MailMessage mail = new MailMessage())
+                {
+                    mail.From = new MailAddress("secomarmelo@gmail.com");
+                    mail.To.Add(comprador_atual.Email);
+                    mail.Subject = "Licitação ultrapassada";
+                    mail.Body = "A sua licitação no leilão " + auction.Titulo + " foi ultrapassada! Volte rápido para reaver o seu item!";
+                    mail.IsBodyHtml = false;
+                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                    {
+                        smtp.Credentials = new NetworkCredential("secomarmelo@gmail.com", "woio mapm hyjt ebsr");
+                        smtp.EnableSsl = true;
+                        smtp.Send(mail);
+                    }
+                }
             }
             auction.PrecoAtual = bid.Ammount;
             auction.CompradorId = email;
             possivel_comprador.Saldo -= bid.Ammount;
+            var time_left = auction.DataInicio.AddMinutes(auction.Duracao) - DateTime.Now;
+            if(time_left.TotalMinutes < 5)
+            {
+                auction.Duracao += 5;
+            }
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpGet("images/{id}")]
+        public async Task<ActionResult<List<string>>> GetImages(int id)
+        {
+            var results = await _context.Imagens.Where(x => x.LeilaoId == id).Select(x => x.StoredFileName).ToListAsync();
+            List<string> returns = new List<string>();
+            foreach(var result in results)
+            {
+                var path = Path.Combine(_env.ContentRootPath, "uploads", "images", result);
+                using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] imageBytes;
+                    imageBytes = new byte[fileStream.Length];
+                    fileStream.Read(imageBytes, 0, (int)fileStream.Length);
+                    returns.Add(Convert.ToBase64String(imageBytes));
+                }
+
+            }
+            return Ok(returns);
         }
     }
 }

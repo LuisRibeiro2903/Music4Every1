@@ -32,5 +32,10 @@ namespace Music4Every1.Client.Services.UsersService
             var result = await _http.GetAsync($"api/users/watchlist/{leilaoId}");
             return result.IsSuccessStatusCode;
         }
+
+        public async Task<double> GetWallet()
+        {
+            return await _http.GetFromJsonAsync<double>("api/users/wallet");
+        }
     }
 }

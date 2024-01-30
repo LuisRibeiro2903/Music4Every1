@@ -4,20 +4,31 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
 
-<h2>Registar uma conta nova</h2>
 
-<EditForm Model="user" OnSubmit="HandleRegister">
-    <label for="email">Email</label>
-    <InputText id="email" @bind-Value="user.Email" />
+<div class="form-container" style="color:#fff;">
+    <EditForm Model="user" OnSubmit="HandleRegister">
+        <div class="form-box">
+            <div class="input-group">
+                <laber for="nome">Nome do Utilizador</laber>
+                <InputText id="nome" @bind-Value="user.Nome" />
+            </div>
+            <div class="input-group">
+                <label for="email">Endereço eletrónico</label>
+                <InputText id="email" @bind-Value="user.Email" />
+            </div>
 
-    <label for="password">Password</label>
-    <InputText id="password" @bind-Value="user.Password" type="password" />
+            <div class="input-group">
+                <label for="password">Password</label>
+                <InputText id="password" @bind-Value="user.Password" type="password" />
+            </div>
 
-    <label for="confirmPassword">Confirm Password</label>
-    <InputText id="confirmPassword" @bind-Value="confirm" type="password" />
 
-    <button type="submit" class="btn btn-primary">Register</button>
-</EditForm>
+            <button type="submit" class="submit-btn">Register</button>
+        </div>
+
+    </EditForm>
+</div>
+
 
 @code {
 

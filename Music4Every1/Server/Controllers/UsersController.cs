@@ -68,5 +68,16 @@ namespace Music4Every1.Server.Controllers
             }
             return Ok();
         }
+
+        [HttpGet("wallet")]
+        public async Task<ActionResult<double>> GetWallet()
+        {
+            Request.Headers.TryGetValue("Authorization", out var token);
+            var token_str = token.ToString().Replace("Bearer ", "").Trim();
+            var claims = JwtParser.ParseClaimsFromJwt(token_str);
+            string email = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+            var user = await _context.Utilizadores.FindAsync(email);
+            return Ok(user.Saldo);
+        }
     }
 }

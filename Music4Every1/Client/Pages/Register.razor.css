@@ -1,0 +1,50 @@
+﻿* {
+    color: #fff;
+    display: flex;
+}
+
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-box {
+    background-color: #555; /* Darker box color */
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display: block;
+    color: #fff;
+}
+
+.checkbox {
+    display: inline;
+    align-items: center; /* This ensures vertical alignment */
+    justify-content: start; /* Aligns content to the start of the flex container */
+}
+
+    .checkbox span {
+        margin-left: 100px; /* Adjust this value as needed for proper spacing */
+        font-size: 14px;
+    }
+
+.submit-btn {
+    background-color: #fc7f26;
+    border: #fc7f26;
+}
