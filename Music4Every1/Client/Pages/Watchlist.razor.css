@@ -1,0 +1,218 @@
+﻿/* General Styles */
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Styling the input fields */
+.custom-input,
+.input-min,
+.input-max {
+    border: 2px solid #ddd; /* Default border color */
+    border-radius: 25px; /* Rounded borders */
+    padding: 10px 20px; /* Spacing inside the inputs */
+    font-size: 16px; /* Font size */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+    /* Styling the input fields on focus */
+    .custom-input:focus,
+    .input-min:focus,
+    .input-max:focus {
+        outline: none; /* Removes the default focus outline */
+        border-color: #fc7f26; /* Orange border color when focused */
+    }
+
+/* Styling the buttons */
+.btn {
+    border: none; /* No border */
+    border-radius: 25px; /* Rounded borders */
+    padding: 10px 25px; /* Spacing inside the buttons */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Cursor changes to pointer to indicate it's clickable */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and text color */
+}
+
+/* Primary button style */
+.btn-primary {
+    background-color: #fc7f26; /* Orange background */
+    color: white; /* White text color */
+}
+
+    /* Primary button hover effect */
+    .btn-primary:hover {
+        background-color: #e96e1b; /* Darker shade of orange */
+    }
+
+/* Danger button style */
+.btn-danger {
+    background-color: #d9534f; /* Bootstrap's default 'danger' color */
+    color: white; /* White text color */
+}
+
+    /* Danger button hover effect */
+    .btn-danger:hover {
+        background-color: #c9302c; /* Darker shade of red */
+    }
+
+/* Styling the select dropdown */
+.custom-select {
+    border: 2px solid #ddd; /* Default border color */
+    border-radius: 25px; /* Rounded borders */
+    padding: 10px 20px; /* Spacing inside the select */
+    font-size: 16px; /* Font size */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+    /* Changing the dropdown arrow color */
+    .custom-select:focus {
+        border-color: #fc7f26; /* Orange border color when focused */
+    }
+
+/* Style the wrapper for price input */
+.wrapper {
+    text-align: left; /* Aligns the text to the left */
+    margin-bottom: 20px; /* Margin at the bottom */
+}
+
+    /* Style for the price input header */
+    .wrapper > header {
+        margin-bottom: 10px; /* Margin at the bottom of the header */
+        font-size: 18px; /* Font size for the header */
+        color: #fff; /* Dark text for better readability */
+    }
+
+/* Style for the price range fields */
+.price-input .field {
+    display: block; /* Fields are inline */
+    margin-right: 10px; /* Space between the fields */
+}
+
+.price-input .input-min,
+.price-input .input-max {
+    width: 100px; /* Fixed width for min and max input */
+}
+
+.price-input .separator {
+    display: inline-block; /* Separator is inline */
+    color: #fff; /* Dark text for the separator */
+    padding: 0 5px; /* Small padding around the separator */
+}
+
+/* Customizing the appearance of the number input fields */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Removes the default spin buttons in Webkit browsers */
+    margin: 0; /* Removes the default margin for spin buttons */
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Removes the default spin buttons in Firefox */
+    appearance: none;
+    margin: 0;
+}
+
+/* Styling the search and clear buttons container */
+.btn-container {
+    text-align: center; /* Centers the buttons */
+    margin-top: 20px; /* Adds space above the buttons */
+}
+
+/* Adjusting the spacing between buttons */
+.btn + .btn {
+    margin-left: 2px; /* Adds space between buttons if they are next to each other */
+}
+
+/* Additional hover effects for buttons */
+.btn:hover {
+    opacity: 0.9; /* Slightly lower opacity on hover for a subtle effect */
+}
+
+/* Styling for the 'Limpar Pesquisa' button to match the theme */
+.btn-danger {
+    background-color: #fc7f26; /* Changing the 'danger' color to match the orange theme */
+    color: white; /* Ensuring the text is white for readability */
+}
+
+    .btn-danger:hover {
+        background-color: #e96e1b; /* Darker shade of orange on hover */
+    }
+
+/* Ensuring the dropdown matches the input fields and buttons */
+.custom-select {
+    background-color: white; /* White background to match the input fields */
+    color: #333; /* Dark text for better readability */
+}
+
+/* Styling the table */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* This helps in maintaining a uniform column width */
+}
+
+    /* Header styling */
+    .table th {
+        background-color: #fc7f26; /* Orange background for headers */
+        color: white;
+        padding: 12px;
+        text-align: center; /* Center aligned headers */
+        border-bottom: 2px solid #ddd; /* Border under headers for separation */
+    }
+
+    /* Body styling */
+    .table td {
+        padding: 10px;
+        text-align: center; /* Center aligned text */
+        border-bottom: 1px solid #ddd; /* Borders between rows */
+    }
+
+    /* Hover effect for each row */
+    .table tbody tr:hover {
+        background-color: #f2f2f2; /* Light grey background on hover for each row */
+        color: #333; /* Darker text for contrast */
+    }
+
+    /* Column for 'Fotos' and 'Detalhes' */
+    .table th:last-child,
+    .table td:last-child {
+        text-align: center;
+    }
+
+/* Button styling for 'Detalhes' */
+.btn-detalhes {
+    padding: 6px 20px; /* Slightly larger padding for a button-like feel */
+    background-color: #e67e22; /* Dark orange for buttons */
+    color: white;
+    border: none;
+    border-radius: 20px; /* Rounded corners for buttons */
+    cursor: pointer;
+    transition: background 0.3s; /* Smooth transition for hover effect */
+}
+
+    .btn-detalhes:hover {
+        background-color: #d35400; /* Darker shade of orange on hover */
+    }
+
+/* Styling for 'Fotos' column, assuming thumbnails or icons will be used */
+.foto-icon {
+    width: 30px; /* Adjust size accordingly */
+    height: auto;
+    border-radius: 50%; /* Circular images if using thumbnails */
+}
+
+/* Styling the 'Detalhes' text button if not using an actual button element */
+.det-text {
+    color: #e67e22;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+    .det-text:hover {
+        color: #d35400;
+    }
+
+/* Additional columns for 'Fotos' and 'Detalhes' in the header */
+.table thead th:nth-last-child(-n+2) {
+    width: 15%; /* Adjust the width as per content */
+}

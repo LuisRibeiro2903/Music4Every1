@@ -18,6 +18,7 @@ namespace Music4Every1.Shared
         public DateTime DataInicio { get; set; }
         public int Duracao { get; set; }
         public double PrecoInicial { get; set; }
+        public double PrecoAtual { get; set; }
         public double? PrecoCompraImediata { get; set; }
         public string Estado { get; set; } = string.Empty;  
         public List<Item> Itens { get; set; } = new List<Item>();

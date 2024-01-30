@@ -1,0 +1,23 @@
+﻿@page "/wallet"
+@inject IUsersService UsersService
+@inject NavigationManager NavigationManager
+
+<input type="number" @bind-value="@Ammount" />
+<button type="submit" class="btn btn-primary" @onclick="AddMoney">Adicionar</button>
+<button type="submit" class="btn btn-danger" @onclick="RemoveMoney">Remover</button>"
+
+@code {
+    private string Ammount { get; set; } = "";
+
+    async Task AddMoney()
+    {
+        await UsersService.UpdateWallet(Ammount);
+        NavigationManager.NavigateTo("/");
+    }
+
+    async Task RemoveMoney()
+    {
+        await UsersService.UpdateWallet("-" + Ammount);
+        NavigationManager.NavigateTo("/");
+    }
+}

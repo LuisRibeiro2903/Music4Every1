@@ -137,6 +137,9 @@ namespace Music4Every1.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("PrecoAtual")
+                        .HasColumnType("float");
+
                     b.Property<double?>("PrecoCompraImediata")
                         .HasColumnType("float");
 
@@ -167,6 +170,7 @@ namespace Music4Every1.Server.Migrations
                             Descricao = "Guitarra",
                             Duracao = 1,
                             Estado = "FINISHED",
+                            PrecoAtual = 100.0,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             Titulo = "",
@@ -179,6 +183,7 @@ namespace Music4Every1.Server.Migrations
                             Descricao = "Bateria",
                             Duracao = 1,
                             Estado = "FINISHED",
+                            PrecoAtual = 100.0,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             Titulo = "",
@@ -191,6 +196,7 @@ namespace Music4Every1.Server.Migrations
                             Descricao = "Piano",
                             Duracao = 1,
                             Estado = "FINISHED",
+                            PrecoAtual = 100.0,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             Titulo = "",
@@ -203,6 +209,7 @@ namespace Music4Every1.Server.Migrations
                             Descricao = "Violino",
                             Duracao = 1,
                             Estado = "FINISHED",
+                            PrecoAtual = 100.0,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             Titulo = "",
@@ -215,6 +222,7 @@ namespace Music4Every1.Server.Migrations
                             Descricao = "Saxofone",
                             Duracao = 1,
                             Estado = "FINISHED",
+                            PrecoAtual = 100.0,
                             PrecoCompraImediata = 200.0,
                             PrecoInicial = 100.0,
                             Titulo = "",
@@ -289,6 +297,30 @@ namespace Music4Every1.Server.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Music4Every1.Shared.Watchlist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuctionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuctionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Watchlists");
+                });
+
             modelBuilder.Entity("Music4Every1.Shared.Imagem", b =>
                 {
                     b.HasOne("Music4Every1.Shared.Leilao", "Leilao")
@@ -326,6 +358,25 @@ namespace Music4Every1.Server.Migrations
                     b.Navigation("Comprador");
 
                     b.Navigation("Vendedor");
+                });
+
+            modelBuilder.Entity("Music4Every1.Shared.Watchlist", b =>
+                {
+                    b.HasOne("Music4Every1.Shared.Leilao", "Auction")
+                        .WithMany()
+                        .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Music4Every1.Shared.Utilizador", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Auction");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Leilao", b =>

@@ -20,6 +20,14 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'saldo') {
+                // Atualize o saldo na UI usando Blazor
+                DotNet.invokeMethodAsync('AssemblyName', 'AtualizarSaldoDaLocalStorage');
+            }
+        });
+    </script>
 </body>
 
 </html>

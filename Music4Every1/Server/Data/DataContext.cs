@@ -20,11 +20,11 @@
             modelBuilder.Entity<Leilao>().HasMany(l => l.Imagens).WithOne(i => i.Leilao).HasForeignKey(i => i.LeilaoId);
 
             modelBuilder.Entity<Leilao>().HasData(
-                new Leilao { Id = 1, VendedorId = "joao@gmail.com", Estado = "FINISHED" ,Descricao = "Guitarra", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 2, VendedorId = "maria@gmail.com", Estado = "FINISHED" ,Descricao = "Bateria", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 3, VendedorId = "jose@gmail.com", Estado = "FINISHED" ,Descricao = "Piano", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 4, VendedorId = "ana@gmail.com", Estado = "FINISHED" ,Descricao = "Violino", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 },
-                new Leilao { Id = 5, VendedorId = "carlos@gmail.com", Estado = "FINISHED" ,Descricao = "Saxofone", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200 }
+                new Leilao { Id = 1, VendedorId = "joao@gmail.com", Estado = "FINISHED" ,Descricao = "Guitarra", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200, PrecoAtual = 100 },
+                new Leilao { Id = 2, VendedorId = "maria@gmail.com", Estado = "FINISHED" ,Descricao = "Bateria", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200, PrecoAtual = 100 },
+                new Leilao { Id = 3, VendedorId = "jose@gmail.com", Estado = "FINISHED" ,Descricao = "Piano", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200, PrecoAtual = 100 },
+                new Leilao { Id = 4, VendedorId = "ana@gmail.com", Estado = "FINISHED" ,Descricao = "Violino", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200, PrecoAtual = 100 },
+                new Leilao { Id = 5, VendedorId = "carlos@gmail.com", Estado = "FINISHED" ,Descricao = "Saxofone", DataInicio = new DateTime(2021, 1, 1), Duracao = 1, PrecoInicial = 100, PrecoCompraImediata = 200, PrecoAtual = 100 }
             );
 
             modelBuilder.Entity<Item>().HasData(
@@ -35,6 +35,17 @@
                 new Item { Id = 5, Nome = "Saxofone", Categoria = "wind", LeilaoId = 5 }
             );
 
+            modelBuilder.Entity<Watchlist>()
+                .HasOne(w => w.User)
+                .WithMany()
+                .HasForeignKey(w => w.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Watchlist>()
+                .HasOne(w => w.Auction)
+                .WithMany()
+                .HasForeignKey(w => w.AuctionId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
 
         public DbSet<Utilizador> Utilizadores { get; set; }
@@ -44,5 +55,7 @@
         public DbSet<Imagem> Imagens { get; set; }
 
         public DbSet<Item> Itens { get; set; }
+
+        public DbSet<Watchlist> Watchlists { get; set; }
     }
 }

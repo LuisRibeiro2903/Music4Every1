@@ -28,6 +28,17 @@ namespace Music4Every1.Server.Controllers
             return Ok(results);
         }
 
+        [HttpGet("watchlist")]
+        public async Task<ActionResult<List<Leilao>>> GetAuctionsWatchlist()
+        {
+            Request.Headers.TryGetValue("Authorization", out var token);
+            var token_str = token.ToString().Replace("Bearer ", "").Trim();
+            var claims = JwtParser.ParseClaimsFromJwt(token_str);
+            string email = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+            var results = await _context.Watchlists.Include(x => x.Auction).Where(x => x.UserId == email).Select(x => x.Auction).ToListAsync();
+            return Ok(results);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<LeilaoDetailsDTO>> GetAuctionById(int id)
         {
@@ -35,11 +46,13 @@ namespace Music4Every1.Server.Controllers
             LeilaoDetailsDTO result = new LeilaoDetailsDTO
             {
                 Id = response.Id,
+                Titulo = response.Titulo,
                 VendedorId = response.VendedorId,
                 Descricao = response.Descricao,
                 DataInicio = response.DataInicio,
                 Duracao = response.Duracao,
                 PrecoInicial = response.PrecoInicial,
+                PrecoAtual = response.PrecoAtual,
                 PrecoCompraImediata = response.PrecoCompraImediata,
                 Estado = response.Estado
             };
@@ -50,6 +63,41 @@ namespace Music4Every1.Server.Controllers
         public async Task<ActionResult<List<Leilao>>> FilteredSearch(Filter search)
         {
             IQueryable<Leilao> query = _context.Leiloes.Include(l => l.Itens);
+            if (!string.IsNullOrEmpty(search.Term))
+            {
+                query = query.Where(x => x.Descricao.Contains(search.Term));
+            }
+            if (!string.IsNullOrEmpty(search.Categoria))
+            {
+                query = query.Where(x => x.Itens.Any(item => item.Categoria.Equals(search.Categoria)));
+            }
+            if (search.PrecoMin != null)
+            {
+                query = query.Where(x => x.PrecoInicial >= search.PrecoMin);
+            }
+            if (search.PrecoMax != null)
+            {
+                query = query.Where(x => x.PrecoInicial <= search.PrecoMax);
+            }
+            var results = await query
+                .Select(x => new Leilao
+                {
+                    Id = x.Id,
+                    Descricao = x.Descricao,
+                    DataInicio = x.DataInicio,
+                    PrecoInicial = x.PrecoInicial,
+                }).ToListAsync();
+            return Ok(results);
+        }
+
+        [HttpPost("watchlist/filter")]
+        public async Task<ActionResult<List<Leilao>>> FilteredSearchWatchlist(Filter search)
+        {
+            Request.Headers.TryGetValue("Authorization", out var token);
+            var token_str = token.ToString().Replace("Bearer ", "").Trim();
+            var claims = JwtParser.ParseClaimsFromJwt(token_str);
+            string email = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+            IQueryable<Leilao> query = _context.Watchlists.Include(x => x.Auction).ThenInclude(l => l.Itens).Where(x => x.UserId == email).Select(x => x.Auction);
             if (!string.IsNullOrEmpty(search.Term))
             {
                 query = query.Where(x => x.Descricao.Contains(search.Term));
@@ -126,5 +174,41 @@ namespace Music4Every1.Server.Controllers
             return Ok();
         }
 
+        [HttpPost("bid")]
+        public async Task<ActionResult> PlaceBid(Bid bid)
+        {
+            Request.Headers.TryGetValue("Authorization", out var token);
+            var token_str = token.ToString().Replace("Bearer ", "").Trim();
+            var claims = JwtParser.ParseClaimsFromJwt(token_str);
+            string email = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+            var auction = await _context.Leiloes.Include(x => x.Itens).FirstOrDefaultAsync(x => x.Id == bid.LeilaoId);
+            var possivel_comprador = await _context.Utilizadores.FirstOrDefaultAsync(x => x.Email == email); 
+            var comprador_atual = await _context.Utilizadores.FirstOrDefaultAsync(x => x.Email == auction.CompradorId);
+            if (auction == null)
+            {
+                return BadRequest();
+            }
+            if (auction.VendedorId == email)
+            {
+                return BadRequest();
+            }
+            if (auction.PrecoAtual >= bid.Ammount)
+            {
+                return BadRequest();
+            }
+            if (possivel_comprador.Saldo < bid.Ammount)
+            {
+                return BadRequest();
+            }
+            if (comprador_atual != null)
+            {
+                comprador_atual.Saldo += auction.PrecoAtual;
+            }
+            auction.PrecoAtual = bid.Ammount;
+            auction.CompradorId = email;
+            possivel_comprador.Saldo -= bid.Ammount;
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
     }
 }

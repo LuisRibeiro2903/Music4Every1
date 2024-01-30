@@ -25,10 +25,26 @@ namespace Music4Every1.Client.Services.AuctionsService
             }
             IsLoading = false;
         }
+        
+        public async Task GetAuctionsWatchlist()
+        {
+            var result = await _http.GetFromJsonAsync<List<Leilao>>("api/auctions/watchlist");
+            if (result != null)
+            {
+                Auctions = result;
+            }
+            IsLoading = false;
+        }
 
         public async Task FilteredSearch(Filter search)
         {
             var result = await _http.PostAsJsonAsync("api/auctions/search", search);
+            await SetAuctions(result);
+        }
+        
+        public async Task FilteredSearchWatchlist(Filter search)
+        {
+            var result = await _http.PostAsJsonAsync("api/auctions/watchlist/filter", search);
             await SetAuctions(result);
         }
 
@@ -55,6 +71,11 @@ namespace Music4Every1.Client.Services.AuctionsService
         public async Task UploadImages (MultipartFormDataContent files, int id)
         {
             await _http.PostAsync($"api/auctions/upload/{id}", files);
+        }
+
+        public async Task PlaceBid(double ammount, int id)
+        {
+            await _http.PostAsJsonAsync("api/auctions/bid", new Bid { Ammount = ammount, LeilaoId = id});
         }
     }
 }

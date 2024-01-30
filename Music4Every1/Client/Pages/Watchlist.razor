@@ -1,0 +1,181 @@
+﻿@page "/watchlist"
+@implements IDisposable
+@inject IAuctionsService AuctionsService
+@inject NavigationManager NavigationManager
+
+<input type="text" class="custom-input" @bind-value="@filter.Term" />
+<button type="submit" class="btn btn-primary" @onclick="SearchAuctions">Pesquisar</button>
+<button type="button" class="btn btn-danger" @onclick="ClearResults">Limpar Pesquisa</button>
+<select class="custom-select" @bind="@filter.Categoria">
+    <option value="">Todas as categorias</option>
+    <option value="strings">Cordas</option>
+    <option value="percussion">Percussão</option>
+    <option value="electric">Elétricos</option>
+    <option value="wind">Sopros</option>
+</select>
+<div style="color: #fff;">
+    <div class="wrapper">
+        <header>
+            <h3>Intervalo de preços</h3>
+        </header>
+        <div class="price-input">
+            <div class="field">
+                <span>Min</span>
+                <input type="number" class="input-min" @bind-value="@filter.PrecoMin" />
+            </div>
+            <div class="separator">-</div>
+            <div class="field">
+                <span>Max</span>
+                <input type="number" class="input-max" @bind-value="@filter.PrecoMax" />
+            </div>
+        </div>
+    </div>
+
+    @if (AuctionsService.IsLoading)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else if (!AuctionsService.Auctions.Any())
+    {
+        <p><em>Não houve resultados para a sua pesquisa...</em></p>
+    }
+    else
+    {
+        <h3>Leilões</h3>
+
+        <table class="table" style="color: #fff;">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Data de início</th>
+                    <th>Preço inicial</th>
+                    <th>Detalhes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var auction in AuctionsService.Auctions)
+                {
+                    <tr>
+                        <td>@auction.Descricao</td>
+                        <td>@auction.DataInicio</td>
+                        <td>@auction.PrecoInicial</td>
+                        <td>
+                            <button class="btn btn-detalhes" @onclick="(() => Showw(auction.Id))"><i class="oi oi-magnifying-glass" style="font-size: 25px"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Term { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int? Max { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int? Min { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Category { get; set; }
+
+    private Filter filter = new Filter { PrecoMin = 70, PrecoMax = 1000 };
+
+    private void SearchAuctions()
+    {
+        string search = "/watchlist";
+        char seperator = '?';
+        if (!string.IsNullOrEmpty(filter.Term))
+        {
+            search += seperator + $"term={filter.Term}";
+            seperator = '&';
+        }
+        if (!string.IsNullOrEmpty(filter.Categoria))
+        {
+            search += seperator + $"category={filter.Categoria}";
+            seperator = '&';
+        }
+        if (filter.PrecoMin > 70)
+        {
+            search += seperator + $"min={filter.PrecoMin}";
+            seperator = '&';
+        }
+        if (filter.PrecoMax < 1000)
+        {
+            search += seperator + $"max={filter.PrecoMax}";
+            seperator = '&';
+        }
+        var current_url = new Uri(NavigationManager.Uri);
+        string path = current_url.PathAndQuery;
+        if (!path.Equals(search))
+        {
+            NavigationManager.NavigateTo(search);
+        }
+    }
+
+    private void Showw(int Id)
+    {
+        NavigationManager.NavigateTo($"/auction/{Id}");
+    }
+
+    private void ClearResults()
+    {
+        filter.Term = string.Empty;
+        filter.PrecoMax = 1000;
+        filter.PrecoMin = 70;
+        filter.Categoria = string.Empty;
+        var current_url = new Uri(NavigationManager.Uri);
+        string path = current_url.PathAndQuery;
+        if (!path.Equals("/watchlist"))
+        {
+            NavigationManager.NavigateTo("/watchlist");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var current_url = new Uri(NavigationManager.Uri);
+        string path = current_url.PathAndQuery;
+        if (!path.Equals("/watchlist"))
+        {
+            Filter aux = new Filter
+                {
+                    Term = Term,
+                    Categoria = Category,
+                    PrecoMin = Min,
+                    PrecoMax = Max,
+                };
+            await AuctionsService.FilteredSearchWatchlist(aux);
+            StateHasChanged();
+        }
+        else
+        {
+            await AuctionsService.GetAuctionsWatchlist();
+        }
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    protected async void OnLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        Filter aux = new Filter
+            {
+                Term = Term,
+                Categoria = Category,
+                PrecoMin = Min,
+                PrecoMax = Max,
+            };
+
+        await AuctionsService.FilteredSearchWatchlist(aux);
+        StateHasChanged();
+    }
+
+    void IDisposable.Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
