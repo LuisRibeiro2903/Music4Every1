@@ -1,0 +1,56 @@
+
+/* Style for h3 title */
+h3 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.form-box {
+    background-color: #555; /* Darker box color */
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.input-field {
+    order: 1; /* Move input field below the label */
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #777;
+    border-radius: 5px;
+}
+
+.submit-btn {
+    order: 2; /* Move submit button below the input field */
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+

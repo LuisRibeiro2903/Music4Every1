@@ -9,11 +9,13 @@ namespace Music4Every1.Shared
     public class LeilaoDetailsDTO
     {
         public int Id { get; set; }
+        public string Titulo { get; set; } = string.Empty;  
         public string VendedorId { get; set; }
         public string Descricao { get; set; } = string.Empty;
         public DateTime DataInicio { get; set; }
         public int Duracao { get; set; }
         public double PrecoInicial { get; set; }
+        public double PrecoAtual { get; set; }
         public double? PrecoCompraImediata { get; set; }
         public string Estado { get; set; } = string.Empty;
     }

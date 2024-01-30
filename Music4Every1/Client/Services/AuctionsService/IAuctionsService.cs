@@ -7,13 +7,20 @@
 
         Task GetAuctions();
 
+        Task GetAuctionsWatchlist();
+
         Task FilteredSearch(Filter search);
+        Task FilteredSearchWatchlist(Filter search);
 
         Task<int> CreateAuction(LeilaoCreateDTO leilao);
 
         Task UploadImages(MultipartFormDataContent files, int id);
         
         Task<LeilaoDetailsDTO> GetAuctionById(int id);
+
+        Task PlaceBid(double ammount, int id);
+
+        Task<List<string>> GetImages(int id);
 
     }
 }

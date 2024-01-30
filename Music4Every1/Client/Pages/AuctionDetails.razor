@@ -1,22 +1,45 @@
 ﻿@page "/auction/{id:int}"
 @inject IAuctionsService AuctionService
+@inject IUsersService UsersService
+@inject NavigationManager NavigationManager
 
 <div style="color: #fff;">
     
-    <h3>Auction Details</h3>
-
     @if (auction != null)
     {
         <div>
-            <h4>Auction ID: @auction.Id</h4>
-            <p>Description: @auction.Descricao</p>
-            <p>Start Date: @auction.DataInicio</p>
-            <p>Duration: @auction.Duracao hours</p>
-            <p>Initial Price: @auction.PrecoInicial</p>
-            <p>Immediate Purchase Price: @auction.PrecoCompraImediata</p>
-            <p>Seller: @auction.VendedorId</p>
-
-        
+            @foreach(var image in images)
+            {
+                <img src="@image" alt="Base64 Image" />
+            }
+            <h3>Leilão: @auction.Titulo</h3>
+            <p>Descrição: @auction.Descricao</p>
+            <p>Data de início: @auction.DataInicio</p>
+            <p>Duração: @auction.Duracao minutos</p>
+            <p>Preço inicial: @auction.PrecoInicial</p>
+            <p>Preço atual: @auction.PrecoAtual</p>
+            @if (auction.PrecoCompraImediata != null)
+            {
+                <p>Preço de compra imediata: @auction.PrecoCompraImediata</p>
+            }
+            <p>Vendedor: @auction.VendedorId</p>
+            <AuthorizeView>
+                <Authorized>
+                    @if (auction.Estado == "STARTED")
+                    {
+                        <p>Licitar: <input type="number" @bind-value="@bid" min="@auction.PrecoAtual + 1"/></p>
+                        <button class="btn btn-success" @onclick="(() => PlaceBid(auction.Id))">Licitar</button>
+                    }
+                    @if (IsWatchlisted)
+                    {
+                        <button class="btn btn-danger" @onclick="(() => RemoveWatchlist(auction.Id))">Remover da Watchlist</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-success" @onclick="(() => AddWatchlist(auction.Id))">Adicionar à Watchlist</button>
+                    }
+                </Authorized>
+            </AuthorizeView>
         </div>
     }
 </div>
@@ -24,11 +47,31 @@
 @code {
     [Parameter]
     public int Id { get; set; }
-
+    public Boolean IsWatchlisted { get; set; }
+    public double bid { get; set; }
     private LeilaoDetailsDTO auction;
+    private List<string> images = new();
 
     protected override async Task OnInitializedAsync()
     {
         auction = await AuctionService.GetAuctionById(Id);
+        images = await AuctionService.GetImages(Id);
+        IsWatchlisted = await UsersService.IsWatchlisted(Id);
+    }
+
+    private async Task AddWatchlist(int id)
+    {
+        await UsersService.AddWatchlist(id);
+    }
+
+    private async Task RemoveWatchlist(int id)
+    {
+        await UsersService.RemoveWatchlist(id);
+    }
+
+    private async Task PlaceBid(int id)
+    {
+        await AuctionService.PlaceBid(bid, id); 
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
     }
 }

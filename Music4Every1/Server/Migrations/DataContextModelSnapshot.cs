@@ -72,44 +72,7 @@ namespace Music4Every1.Server.Migrations
 
                     b.HasIndex("LeilaoId");
 
-                    b.ToTable("Item");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Categoria = "electric",
-                            LeilaoId = 1,
-                            Nome = "Guitarra Elétrica"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Categoria = "percussion",
-                            LeilaoId = 2,
-                            Nome = "Bateria"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Categoria = "strings",
-                            LeilaoId = 3,
-                            Nome = "Piano"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Categoria = "strings",
-                            LeilaoId = 4,
-                            Nome = "Violino"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Categoria = "wind",
-                            LeilaoId = 5,
-                            Nome = "Saxofone"
-                        });
+                    b.ToTable("Itens");
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Leilao", b =>
@@ -137,11 +100,18 @@ namespace Music4Every1.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("PrecoAtual")
+                        .HasColumnType("float");
+
                     b.Property<double?>("PrecoCompraImediata")
                         .HasColumnType("float");
 
                     b.Property<double>("PrecoInicial")
                         .HasColumnType("float");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VendedorId")
                         .IsRequired()
@@ -154,63 +124,6 @@ namespace Music4Every1.Server.Migrations
                     b.HasIndex("VendedorId");
 
                     b.ToTable("Leiloes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Guitarra",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            VendedorId = "joao@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Bateria",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            VendedorId = "maria@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Piano",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            VendedorId = "jose@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Violino",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            VendedorId = "ana@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Saxofone",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            VendedorId = "carlos@gmail.com"
-                        });
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Utilizador", b =>
@@ -236,48 +149,30 @@ namespace Music4Every1.Server.Migrations
                     b.HasKey("Email");
 
                     b.ToTable("Utilizadores");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Email = "joao@gmail.com",
-                            Nome = "João",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        },
-                        new
-                        {
-                            Email = "maria@gmail.com",
-                            Nome = "Maria",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        },
-                        new
-                        {
-                            Email = "jose@gmail.com",
-                            Nome = "José",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        },
-                        new
-                        {
-                            Email = "ana@gmail.com",
-                            Nome = "Ana",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        },
-                        new
-                        {
-                            Email = "carlos@gmail.com",
-                            Nome = "Carlos",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        });
+            modelBuilder.Entity("Music4Every1.Shared.Watchlist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuctionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuctionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Watchlists");
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Imagem", b =>
@@ -317,6 +212,25 @@ namespace Music4Every1.Server.Migrations
                     b.Navigation("Comprador");
 
                     b.Navigation("Vendedor");
+                });
+
+            modelBuilder.Entity("Music4Every1.Shared.Watchlist", b =>
+                {
+                    b.HasOne("Music4Every1.Shared.Leilao", "Auction")
+                        .WithMany()
+                        .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Music4Every1.Shared.Utilizador", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Auction");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Leilao", b =>
