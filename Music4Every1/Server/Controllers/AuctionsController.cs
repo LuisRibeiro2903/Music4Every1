@@ -102,7 +102,7 @@ namespace Music4Every1.Server.Controllers
             IQueryable<Leilao> query = _context.Watchlists.Include(x => x.Auction).ThenInclude(l => l.Itens).Where(x => x.UserId == email).Select(x => x.Auction);
             if (!string.IsNullOrEmpty(search.Term))
             {
-                query = query.Where(x => x.Descricao.Contains(search.Term));
+                query = query.Where(x => x.Descricao.Contains(search.Term) || x.Titulo.Contains(search.Term) || x.Itens.Any(item => item.Nome.Contains(search.Term)));
             }
             if (!string.IsNullOrEmpty(search.Categoria))
             {
@@ -130,7 +130,6 @@ namespace Music4Every1.Server.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<int>> CreateAuction(LeilaoCreateDTO leilao)
         {
-            Console.WriteLine("ola");
             Request.Headers.TryGetValue("Authorization", out var token);
             var token_str = token.ToString().Replace("Bearer ", "").Trim();
             var claims = JwtParser.ParseClaimsFromJwt(token_str);
@@ -142,6 +141,7 @@ namespace Music4Every1.Server.Controllers
                 Descricao = leilao.Descricao,
                 DataInicio = leilao.DataInicio,
                 Duracao = leilao.Duracao,
+                Estado = leilao.Estado,
                 PrecoInicial = leilao.PrecoInicial,
                 PrecoCompraImediata = leilao.PrecoCompraImediata,
             };
@@ -219,6 +219,11 @@ namespace Music4Every1.Server.Controllers
                         smtp.Send(mail);
                     }
                 }
+            }
+            var watchlist = _context.Watchlists.FirstOrDefault(x => x.AuctionId == auction.Id && x.UserId == email);
+            if (watchlist == null)
+            {
+                await _context.Watchlists.AddAsync(new Watchlist { AuctionId = auction.Id, UserId = email });
             }
             auction.PrecoAtual = bid.Ammount;
             auction.CompradorId = email;

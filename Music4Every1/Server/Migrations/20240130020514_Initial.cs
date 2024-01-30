@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace Music4Every1.Server.Migrations
 {
     /// <inheritdoc />
@@ -126,42 +124,6 @@ namespace Music4Every1.Server.Migrations
                         column: x => x.UserId,
                         principalTable: "Utilizadores",
                         principalColumn: "Email");
-                });
-
-            migrationBuilder.InsertData(
-                table: "Utilizadores",
-                columns: new[] { "Email", "Nome", "PasswordHash", "PasswordSalt", "Saldo" },
-                values: new object[,]
-                {
-                    { "ana@gmail.com", "Ana", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 },
-                    { "carlos@gmail.com", "Carlos", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 },
-                    { "joao@gmail.com", "João", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 },
-                    { "jose@gmail.com", "José", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 },
-                    { "maria@gmail.com", "Maria", new byte[] { 49, 50, 51 }, new byte[] { 49, 50, 51 }, 1000.0 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Leiloes",
-                columns: new[] { "Id", "CompradorId", "DataInicio", "Descricao", "Duracao", "Estado", "PrecoAtual", "PrecoCompraImediata", "PrecoInicial", "Titulo", "VendedorId" },
-                values: new object[,]
-                {
-                    { 1, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Guitarra", 1, "FINISHED", 100.0, 200.0, 100.0, "", "joao@gmail.com" },
-                    { 2, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bateria", 1, "FINISHED", 100.0, 200.0, 100.0, "", "maria@gmail.com" },
-                    { 3, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Piano", 1, "FINISHED", 100.0, 200.0, 100.0, "", "jose@gmail.com" },
-                    { 4, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Violino", 1, "FINISHED", 100.0, 200.0, 100.0, "", "ana@gmail.com" },
-                    { 5, null, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saxofone", 1, "FINISHED", 100.0, 200.0, 100.0, "", "carlos@gmail.com" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Itens",
-                columns: new[] { "Id", "Categoria", "LeilaoId", "Nome" },
-                values: new object[,]
-                {
-                    { 1, "electric", 1, "Guitarra Elétrica" },
-                    { 2, "percussion", 2, "Bateria" },
-                    { 3, "strings", 3, "Piano" },
-                    { 4, "strings", 4, "Violino" },
-                    { 5, "wind", 5, "Saxofone" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -12,7 +12,7 @@ using Music4Every1.Server.Data;
 namespace Music4Every1.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240129224812_Initial")]
+    [Migration("20240130020514_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -76,43 +76,6 @@ namespace Music4Every1.Server.Migrations
                     b.HasIndex("LeilaoId");
 
                     b.ToTable("Itens");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Categoria = "electric",
-                            LeilaoId = 1,
-                            Nome = "Guitarra Elétrica"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Categoria = "percussion",
-                            LeilaoId = 2,
-                            Nome = "Bateria"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Categoria = "strings",
-                            LeilaoId = 3,
-                            Nome = "Piano"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Categoria = "strings",
-                            LeilaoId = 4,
-                            Nome = "Violino"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Categoria = "wind",
-                            LeilaoId = 5,
-                            Nome = "Saxofone"
-                        });
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Leilao", b =>
@@ -164,73 +127,6 @@ namespace Music4Every1.Server.Migrations
                     b.HasIndex("VendedorId");
 
                     b.ToTable("Leiloes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Guitarra",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoAtual = 100.0,
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            Titulo = "",
-                            VendedorId = "joao@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Bateria",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoAtual = 100.0,
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            Titulo = "",
-                            VendedorId = "maria@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Piano",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoAtual = 100.0,
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            Titulo = "",
-                            VendedorId = "jose@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Violino",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoAtual = 100.0,
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            Titulo = "",
-                            VendedorId = "ana@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DataInicio = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Descricao = "Saxofone",
-                            Duracao = 1,
-                            Estado = "FINISHED",
-                            PrecoAtual = 100.0,
-                            PrecoCompraImediata = 200.0,
-                            PrecoInicial = 100.0,
-                            Titulo = "",
-                            VendedorId = "carlos@gmail.com"
-                        });
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Utilizador", b =>
@@ -256,48 +152,6 @@ namespace Music4Every1.Server.Migrations
                     b.HasKey("Email");
 
                     b.ToTable("Utilizadores");
-
-                    b.HasData(
-                        new
-                        {
-                            Email = "joao@gmail.com",
-                            Nome = "João",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        },
-                        new
-                        {
-                            Email = "maria@gmail.com",
-                            Nome = "Maria",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        },
-                        new
-                        {
-                            Email = "jose@gmail.com",
-                            Nome = "José",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        },
-                        new
-                        {
-                            Email = "ana@gmail.com",
-                            Nome = "Ana",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        },
-                        new
-                        {
-                            Email = "carlos@gmail.com",
-                            Nome = "Carlos",
-                            PasswordHash = new byte[] { 49, 50, 51 },
-                            PasswordSalt = new byte[] { 49, 50, 51 },
-                            Saldo = 1000.0
-                        });
                 });
 
             modelBuilder.Entity("Music4Every1.Shared.Watchlist", b =>
